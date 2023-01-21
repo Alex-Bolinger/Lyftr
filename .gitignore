@@ -32,7 +32,8 @@ coverage
 build/Release
 
 # Dependency directories
-node_modules/
+node_modules
+backend/node_modules/
 frontend/lyftr/node_modules/
 
 # TypeScript cache
