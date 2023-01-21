@@ -1,4 +1,5 @@
 require("dotenv").config();
+let cors = require("cors");
 import express from 'express';
 
 // Server port
@@ -7,12 +8,16 @@ const port = process.env.PORT;
 // Server
 const server = express();
 
+// CORS
+server.use(cors());
+
 // Body parser middleware
 const BodyParser = require("body-parser");
 server.use(BodyParser.json());
 server.use(BodyParser.urlencoded({ extended: true }));
 
 // Spec validator middleware (using to validate requests)
+// DISABLED due to known issue
 // const OpenApiValidator = require("express-openapi-validator");
 // server.use(
 //     OpenApiValidator.middleware({
