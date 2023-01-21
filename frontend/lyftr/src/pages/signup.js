@@ -47,13 +47,9 @@ fetch("http://127.0.0.1:3001/api/signup", requestOptions)
   .then(response => response.text())
   .then(result => {
     let res = JSON.parse(result);
-<<<<<<< Updated upstream
-    //const [accessToken, setAccessToken] = useState(res);
-=======
     console.log(res);
     setAccessToken(res);
     setIsSubmitted(true);
->>>>>>> Stashed changes
   })
   .catch(error => console.log('error', error));
 
