@@ -22,7 +22,7 @@ const Navbar = () => {
                             <NavBtnLink to='/login'>Login</NavBtnLink>
                         </NavBtn>
                         <NavBtn>
-                            <NavBtnLink to='/Sign Up'>SignUp</NavBtnLink>
+                            <NavBtnLink to='/SignUp'>SignUp</NavBtnLink>
                         </NavBtn>
                     </NavMenu>
                 </NavBT>

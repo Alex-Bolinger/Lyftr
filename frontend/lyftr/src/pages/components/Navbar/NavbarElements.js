@@ -95,9 +95,13 @@ export const NavBtnLink = styled(Link)`
   text-decoration: none;
   /* Second Nav */
   margin-left: 24px;
+  &.active {
+    background: #f7b2b2;
+    color: #a31717;
+  }
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #808080;
+    background: #ffd7d7;
+    color: #e83a3a;
   }
 `;
