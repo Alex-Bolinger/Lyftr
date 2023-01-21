@@ -1,37 +1,39 @@
 import React from "react";
-import { SongContext } from "./Home";
+import { WorkoutContext } from "./Home";
 import { AuthContext } from "../App";
 
-const AddSong = (props) => {
-  const { state, dispatch } = React.useContext(SongContext);
+const AddWorkout = (props) => {
+  const { workoutState, workoutDispatch } = React.useContext(WorkoutContext);
   const { state: authState } = React.useContext(AuthContext);
 
-  const [title, setTitle] = React.useState("");
-  const [artist, setArtist] = React.useState("");
-  const [imageUrl, setImageUrl] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [startTime, setStartTime] = React.useState("");
+  const [endTime, setEndTime] = React.useState("");
+  const [activities, setActivities] = React.useState([]);
 
   const onClose = e => {
     props.onClose && props.onClose(e);
   };
 
-  const isButtonDisabled = title === "" || artist === "" || imageUrl === "" || state.isSongSubmitting;
+  const isButtonDisabled = name === "" || startTime === "" || endTime === "" || activities === "" || workoutState.isWorkoutSubmitting;
 
   const onSubmit = () => {
-      dispatch({
-          type: "ADD_SONG_REQUEST"
+      workoutDispatch({
+          type: "ADD_WORKOUT_REQUEST"
       })
-      const song = {
-        "title": title,
-        "imageUrl": imageUrl,
-        "artist": artist
+      const workout = {
+        "name": name,
+        "startTime": startTime,
+        "endTime": endTime,
+        "activities": activities
       };
-    fetch("https://hookedbe.herokuapp.com/api/songs", {
+    fetch("http://127.0.0.1/api/workouts", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${authState.token}`,
+          Authorization: `${authState.token}`,
           "Content-Type": `application/json`
         },
-        body: JSON.stringify(song),
+        body: JSON.stringify(workout),
       })
         .then(res => {
           if (res.ok) {
@@ -42,17 +44,18 @@ const AddSong = (props) => {
         })
         .then(data => {
             console.log(data);
-            setArtist("");
-            setTitle("");
-            setImageUrl("");
-            dispatch({
-                type: "ADD_SONG_SUCCESS",
+            setName("");
+            setStartTime("");
+            setEndTime("");
+            setActivities([]);
+            workoutDispatch({
+                type: "ADD_WORKOUT_SUCCESS",
                 payload: data
             })
             onClose();
         }).catch(error => {
-            dispatch({
-                type: "ADD_SONG_FAILURE"
+        workoutDispatch({
+                type: "ADD_WORKOUT_FAILURE"
             })
         })
   }
@@ -66,48 +69,47 @@ const AddSong = (props) => {
          <div className="modal-overlay small">
               <div className="modal-header">
                 <h1 className="modal-title">
-                  ADD NEW SONG
+                  ADD NEW WORKOUT
                 </h1>
               </div>
               <form className="modal-form">
                 <div className="modal-form-inputs">
 
-                <label htmlFor="title">Title</label>
+                <label htmlFor="name">Name</label>
                     <input
-                    id="title"
-                    name="title"
+                    id="name"
+                    name="name"
                     type="text"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
+                    value={name}
+                    onChange={e => setName(e.target.value)}
                     className="text-input"
                     />
 
-                <label htmlFor="artist">Artist</label>
+                <label htmlFor="startTime">Start Time</label>
                     <input
-                    id="artist"
-                    name="artist"
+                    id="startTime"
+                    name="startTime"
                     type="text"
-                    value={artist}
-                    onChange={e => setArtist(e.target.value)}
+                    value={startTime}
+                    onChange={e => setStartTime(e.target.value)}
                     className="text-input"
                     />
 
-                <label htmlFor="imageUrl">Image URL</label>
+                <label htmlFor="endTime">End Time</label>
                     <input
-                    id="imageUrl"
-                    name="imageUrl"
+                    id="endTime"
+                    name="endTime"
                     type="text"
-                    value={imageUrl}
-                    onChange={e => setImageUrl(e.target.value)}
+                    value={endTime}
+                    onChange={e => setEndTime(e.target.value)}
                     className="text-input"
                     />
                 </div>
+                  // TODO something to enter reps and sets
 
-
-                
                 <div className="form-error">
                       <p>
-                        {state.songHasError && "Error Creating Song!"}
+                        {workoutState.workoutHasError && "Error adding workout!"}
                       </p>
                 </div>
                 <div className="form-action clearfix">
@@ -118,7 +120,7 @@ const AddSong = (props) => {
                       onClick={onSubmit}
                       disabled={isButtonDisabled}
                     >
-                      {state.isSongSubmitting ? "Submitting..." : "Submit"}
+                      {workoutState.isWorkoutSubmitting ? "Submitting..." : "Submit"}
                     </button>
                     <button
                       type="button"
@@ -137,5 +139,4 @@ const AddSong = (props) => {
     );
 };
 
-export default AddSong;
-
+export default AddWorkout;

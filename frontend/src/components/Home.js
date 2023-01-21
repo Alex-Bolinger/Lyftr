@@ -1,55 +1,56 @@
 import React from "react";
 import { AuthContext } from "../App";
 import Card from "./Card";
-import AddSong from "./AddSong";
+import AddWorkout from "./AddWorkout";
 
-export const SongContext = React.createContext();
-
-const initialState = {
-  songs: [],
+const initialWorkoutState = {
+  workouts: [],
   isFetching: false,
   hasError: false,
-  isSongSubmitting: false,
-  songHasError: false,
+  isWorkoutSubmitting: false,
+  workoutHasError: false,
 };
+export const WorkoutContext = React.createContext(initialWorkoutState);
+
+
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_SONGS_REQUEST":
+    case "FETCH_WORKOUTS_REQUEST":
       return {
         ...state,
         isFetching: true,
         hasError: false
       };
-    case "FETCH_SONGS_SUCCESS":
+    case "FETCH_WORKOUTS_SUCCESS":
       return {
         ...state,
         isFetching: false,
-        songs: action.payload
+        workouts: action.payload
       };
-    case "FETCH_SONGS_FAILURE":
+    case "FETCH_WORKOUTS_FAILURE":
       return {
         ...state,
         hasError: true,
         isFetching: false
       };
-    case "ADD_SONG_REQUEST":
+    case "ADD_WORKOUT_REQUEST":
       return {
         ...state,
-        isSongSubmitting: true,
-        songHasError: false,
+        isWorkoutSubmitting: true,
+        workoutHasError: false,
       }
-    case "ADD_SONG_SUCCESS":
+    case "ADD_WORKOUT_SUCCESS":
       return {
         ...state,
-        isSongSubmitting: false,
-        songs: [...state.songs, action.payload]
+        isWorkoutSubmitting: false,
+        workouts: [...state.workouts, action.payload]
       }
-    case "ADD_SONG_FAILURE":
+    case "ADD_WORKOUT_FAILURE":
       return {
         ...state,
-        isSongSubmitting: false,
-        songHasError: true,
+        isWorkoutSubmitting: false,
+        workoutHasError: true,
       }
     default:
       return state;
@@ -58,20 +59,20 @@ const reducer = (state, action) => {
 
 export const Home = () => {
   const { state: authState } = React.useContext(AuthContext);
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [isAddSongModalVisible, setAddSongModalVisibility] = React.useState(false);
+  const [workoutState, workoutDispatch] = React.useReducer(reducer, initialWorkoutState);
+  const [isAddWorkoutModalVisible, setAddWorkoutModalVisible] = React.useState(false);
 
-  const toggleAddSong = () => {
-    setAddSongModalVisibility(!isAddSongModalVisible);
+  const toggleAddWorkout = () => {
+    setAddWorkoutModalVisible(!isAddWorkoutModalVisible);
   }
 
   React.useEffect(() => {
-    dispatch({
-      type: "FETCH_SONGS_REQUEST"
+    workoutDispatch({
+      type: "FETCH_WORKOUTS_REQUEST"
     });
-    fetch("https://hookedbe.herokuapp.com/api/songs", {
+    fetch("http://127.0.0.1:3001/api/workouts", {
       headers: {
-        Authorization: `Bearer ${authState.token}`
+        Authorization: `${authState.token}`
       }
     })
       .then(res => {
@@ -83,38 +84,38 @@ export const Home = () => {
       })
       .then(resJson => {
         console.log(resJson);
-        dispatch({
-          type: "FETCH_SONGS_SUCCESS",
+        workoutDispatch({
+          type: "FETCH_WORKOUTS_SUCCESS",
           payload: resJson
         });
       })
       .catch(error => {
         console.log(error);
-        dispatch({
-          type: "FETCH_SONGS_FAILURE"
+        workoutDispatch({
+          type: "FETCH_WORKOUTS_FAILURE"
         });
       });
   }, [authState.token]);
 
   return (
     <React.Fragment>
-    <SongContext.Provider value={{
-      state,
-      dispatch
+    <WorkoutContext.Provider value={{
+      workoutState,
+      workoutDispatch
     }}>
-      <button className="toggle-button" onClick={toggleAddSong}>ADD SONG</button>
-      <AddSong onClose={toggleAddSong} show={isAddSongModalVisible} />
-    </SongContext.Provider>
+      <button className="toggle-button" onClick={toggleAddWorkout}>ADD WORKOUT</button>
+      <AddWorkout onClose={toggleAddWorkout} show={isAddWorkoutModalVisible} />
+    </WorkoutContext.Provider>
     <div className="home">
-      {state.isFetching ? (
+      {workoutState.isFetching ? (
         <span className="loader">LOADING...</span>
-      ) : state.hasError ? (
+      ) : workoutState.hasError ? (
         <span className="error">AN ERROR HAS OCCURED</span>
       ) : (
         <>
-          {state.songs.length > 0 &&
-            state.songs.map(song => (
-              <Card key={song.id.toString()} song={song} />
+          {workoutState.workouts.length > 0 &&
+              workoutState.workouts.map(workout => (
+              <Card key={workout.id.toString()} workout={workout} />
             ))}
         </>
       )}
