@@ -1,0 +1,1031 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Workout App",
+        "version": "1.0.0",
+        "description": "API for workout application",
+        "contact": {
+            "name": "Aiden Gonzalez",
+            "url": "https://aidengonzalez.dev/",
+            "email": "aidenlgonzalez2@gmail.com"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "paths": {
+        "/api/signup": {
+            "summary": "Request creation of new user account",
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SignupRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Account successfully created"
+                    },
+                    "401": {
+                        "description": "Client credentials invalid!"
+                    }
+                },
+                "summary": "Create new user account"
+            }
+        },
+        "/api/profiles": {
+            "summary": "Endpoint for getting and updating profiles",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "username",
+                        "description": "Username of user to fetch profile for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserProfile"
+                                }
+                            }
+                        },
+                        "description": "Successfully fetched user profile"
+                    },
+                    "400": {
+                        "description": "Malformed request (missing username?)"
+                    },
+                    "403": {
+                        "description": "Authorization/authentication failed (access token invalid, or maybe not allowed to view this profile?)"
+                    },
+                    "404": {
+                        "description": "User with provided username not found!"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Get a profile by username"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserProfile"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of user whose profile to update",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated user profile!"
+                    },
+                    "400": {
+                        "description": "Malformed request!"
+                    },
+                    "401": {
+                        "description": "Authorization/authentication failed!"
+                    },
+                    "404": {
+                        "description": "Could not find user with ID"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Update user profile by user ID"
+            }
+        },
+        "/api/workouts": {
+            "summary": "Primary endpoint for adding (POST), retrieving (GET), and updating (PUT) workouts",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of workout to fetch.\nOverrides all other query parameters!",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "start_time",
+                        "description": "Start time of workout",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "end_time",
+                        "description": "End time of workout",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "user_id",
+                        "description": "ID of user to fetch workouts for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Workout"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful query.  Return array of workouts."
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Authentication failed"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Get a group of workouts (query) or a certain workout (by ID)"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Workout"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of workout to update",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Workout successfully updated!"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Authentication failed"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Update info for a particular workout"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Workout"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Location": {
+                                        "value": "http://workoutapp.com/api/workouts?id=XXXXX"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successfully added workout!"
+                    },
+                    "400": {
+                        "description": "Malformed request! Missing some information or not in right format."
+                    },
+                    "401": {
+                        "description": "Access token incorrect / insufficient / expired!"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Add a workout"
+            }
+        },
+        "/api/workouts/pictures": {
+            "summary": "Add, retrieve, and delete workout pictures",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "description": "Offset of photo to fetch (first picture is 0)",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "workout_id",
+                        "description": "ID of workout to fetch pictures for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Picture"
+                                }
+                            }
+                        },
+                        "description": "Successful photo link request"
+                    },
+                    "400": {
+                        "description": "Malformed request (may be missing required parameters)"
+                    },
+                    "401": {
+                        "description": "Authentication/authorization failed"
+                    },
+                    "404": {
+                        "description": "Picture of workout with provided offset does not exist!"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Get workout photos",
+                "description": "Fetches all if no offset provided.  Otherwise fetches just that photo."
+            },
+            "post": {
+                "requestBody": {
+                    "description": "Picture link",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "workout_id",
+                        "description": "ID of workout to add photo for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Location": {
+                                        "value": "http://workoutapp.com/api/workouts/pictures?workout_id=XXX&offset=X"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successfully added picture!"
+                    },
+                    "400": {
+                        "description": "Malformed request"
+                    },
+                    "401": {
+                        "description": "Authentication/authorization failed"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Add workout picture (link only, file hosting will have to be handled separately)"
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of picture to remove",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully removed picture!"
+                    },
+                    "400": {
+                        "description": "Malformed request (missing ID?)"
+                    },
+                    "403": {
+                        "description": "Authorization/authentication failed!"
+                    },
+                    "404": {
+                        "description": "Picture with provided ID not found!"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Delete a workout picture"
+            }
+        },
+        "/api/workouts/comments": {
+            "summary": "Primary endpoint for adding (POST), retrieving (GET), and updating (PUT) workout comments",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of workout to fetch comments for",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "Optional pagination: Size of pages to fetch (number of ratings per page)",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "page_offset",
+                        "description": "Optional pagination: Offset of page to fetch (default is 0, max is 100)",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/WorkoutComment"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successful query.  Return array of workout comments."
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Authentication failed"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Get comments for a particular workout"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkoutComment"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of workout comment to update",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Workout comment successfully updated!"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "403": {
+                        "description": "Authentication failed"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Update workout comment"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkoutComment"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "workout_id",
+                        "description": "ID of workout to add comment to",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Location": {
+                                        "value": "http://workoutapp.com/api/workouts?id=XXXXX/comments?id=XXXXX"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Successfully added workout comment!"
+                    },
+                    "400": {
+                        "description": "Malformed request! Missing some information or not in right format."
+                    },
+                    "401": {
+                        "description": "Access token incorrect / insufficient / expired!"
+                    }
+                },
+                "security": [
+                    {
+                        "Access_Token": [
+                        ]
+                    }
+                ],
+                "summary": "Add a workout comment"
+            }
+        },
+        "/api/login": {
+            "summary": "Basic login endpoint",
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCredentials"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        },
+                        "description": "Successful oauth request, return tokens and token information"
+                    },
+                    "400": {
+                        "description": "Request is missing required information or is incorrectly formatted"
+                    },
+                    "401": {
+                        "description": "Client and/or user credentials are incorrect"
+                    }
+                },
+                "summary": "Takes user credentials and returns api token"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "description": "",
+                "required": [
+                    "user_name",
+                    "email",
+                    "created",
+                    "hashed_password",
+                    "profile",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "description": "Email address of user",
+                        "type": "string"
+                    },
+                    "created": {
+                        "description": "Timestamp of when user was created",
+                        "type": "number"
+                    },
+                    "hashed_password": {
+                        "$ref": "#/components/schemas/HashedPassword",
+                        "description": "Hash of user password for authentication"
+                    },
+                    "profile": {
+                        "$ref": "#/components/schemas/UserProfile",
+                        "description": "User profile"
+                    },
+                    "id": {
+                        "description": "Unique user id (not technically necessary but helpful)",
+                        "type": "string"
+                    },
+                    "user_name": {
+                        "description": "Full name of user",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "username": "some text",
+                    "email": "some text",
+                    "created": 42.19,
+                    "hashed_password": {
+                        "hash_pass": "some text",
+                        "hash_salt": "some text"
+                    },
+                    "profile": {
+                        "full_name": "some text",
+                        "picture_link": "some text"
+                    },
+                    "id": "some text"
+                }
+            },
+            "UserProfile": {
+                "description": "",
+                "required": [
+                    "full_name",
+                    "picture_link",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "full_name": {
+                        "description": "Full name of user",
+                        "type": "string"
+                    },
+                    "picture_link": {
+                        "description": "Link to profile photo",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "Unique ID of user profile",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "full_name": "some text",
+                    "picture_link": "some text",
+                    "id": "some text"
+                }
+            },
+            "Picture": {
+                "description": "",
+                "required": [
+                    "id",
+                    "workout_id",
+                    "picture_link"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Unique ID of picture",
+                        "type": "string"
+                    },
+                    "picture_link": {
+                        "description": "Link to picture",
+                        "type": "string"
+                    },
+                    "workout_id": {
+                        "description": "ID of workout picture is for",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": "some text",
+                    "picture_link": "some text",
+                    "workout_id": "some text"
+                }
+            },
+            "UserCredentials": {
+                "description": "Set of login credentials",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "description": "Email address of user",
+                        "type": "string"
+                    },
+                    "password": {
+                        "description": "User's password",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "email": "some text",
+                    "password": "some text"
+                }
+            },
+            "HashedPassword": {
+                "description": "SHA256 hashed password (with salt)",
+                "required": [
+                    "hash_pass",
+                    "hash_salt"
+                ],
+                "type": "object",
+                "properties": {
+                    "hash_pass": {
+                        "description": "Hashed password (SHA256)",
+                        "type": "string"
+                    },
+                    "hash_salt": {
+                        "description": "Salt used for SHA256 hash",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "hash_pass": "some text",
+                    "hash_salt": "some text"
+                }
+            },
+            "Location": {
+                "description": "Identify a unique location (longitude and latitude)",
+                "required": [
+                    "longitude",
+                    "latitude"
+                ],
+                "type": "object",
+                "properties": {
+                    "longitude": {
+                        "description": "Longitude of location",
+                        "type": "number"
+                    },
+                    "latitude": {
+                        "description": "Latitude of location",
+                        "type": "number"
+                    }
+                },
+                "example": {
+                    "longitude": 38.13,
+                    "latitude": 35.74
+                }
+            },
+            "SignupRequest": {
+                "description": "Information needed for signup request",
+                "required": [
+                    "user_credentials",
+                    "user_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "user_credentials": {
+                        "$ref": "#/components/schemas/UserCredentials",
+                        "description": "Set of new credentials for new user"
+                    },
+                    "user_name": {
+                        "description": "Full name of user",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "user_name": "Aiden Gonzalez",
+                    "user_credentials": {
+                        "email": "email@gmail.com",
+                        "password": "somepassword"
+                    }
+                }
+            },
+            "Exercise": {
+                "description": "Represents performance of a specific exercise for some number of reps and sets.",
+                "required": [
+                    "name",
+                    "muscle_group",
+                    "muscles"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "Name of exercise",
+                        "type": "string"
+                    },
+                    "muscle_group": {
+                        "$ref": "#/components/schemas/MuscleGroup",
+                        "description": "Major muscle group that this exercise targets"
+                    },
+                    "muscles": {
+                        "description": "Exact muscles involved",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "example": {
+                    "name": "Barbell Squat",
+                    "muscle_group": "Legs",
+                    "muscles": [
+                        "Glutes",
+                        "Quads",
+                        "Hamstrings",
+                        "Groin",
+                        "Hip Flexors",
+                        "Calves"
+                    ]
+                }
+            },
+            "WorkoutComment": {
+                "description": "Comment on a workout",
+                "required": [
+                    "id",
+                    "workout_id",
+                    "user_id",
+                    "contents"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Unique id of comment (technically not necessary but nice to have)",
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "description": "ID of user who created comment",
+                        "type": "string"
+                    },
+                    "contents": {
+                        "description": "Contents of comment",
+                        "type": "string"
+                    },
+                    "workout_id": {
+                        "description": "ID of workout comment is for",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": "some text",
+                    "user_id": "some text",
+                    "contents": "some text",
+                    "workout_id": "some text"
+                }
+            },
+            "Workout": {
+                "description": "Basic workout information",
+                "required": [
+                    "id",
+                    "activities",
+                    "user_id",
+                    "start_time",
+                    "end_time",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "Unique ID of workout",
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "description": "ID of user who posted workout",
+                        "type": "string"
+                    },
+                    "start_time": {
+                        "description": "Start time of workout",
+                        "type": "string"
+                    },
+                    "end_time": {
+                        "description": "End time of workout",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Name for workout (autogenerated or user-provided)",
+                        "type": "string"
+                    },
+                    "activities": {
+                        "description": "Details of workout (reps and sets of each exercise)",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Activity"
+                        }
+                    }
+                },
+                "example": {
+                    "id": "some text",
+                    "user_id": "some text",
+                    "start_time": "some text",
+                    "end_time": "some text",
+                    "name": "some text",
+                    "activities": [
+                        {
+                            "exercise": {
+                                "name": "some text",
+                                "muscle_group": "Arms",
+                                "muscles": [
+                                    "some text",
+                                    "some text"
+                                ]
+                            },
+                            "sets": 59.01,
+                            "reps": 30.42
+                        },
+                        {
+                            "exercise": {
+                                "name": "some text",
+                                "muscle_group": "Legs",
+                                "muscles": [
+                                    "some text",
+                                    "some text"
+                                ]
+                            },
+                            "sets": 46.38,
+                            "reps": 12.35
+                        }
+                    ]
+                }
+            },
+            "MuscleGroup": {
+                "description": "Type of muscle",
+                "enum": [
+                    "Chest",
+                    "Back",
+                    "Arms",
+                    "Shoulders",
+                    "Legs",
+                    "Calves"
+                ],
+                "type": "string"
+            },
+            "LoginResponse": {
+                "description": "Format for returning token",
+                "required": [
+                    "access_token"
+                ],
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "description": "Access token for API",
+                        "type": "string"
+                    }
+                }
+            },
+            "Activity": {
+                "description": "Sets and reps of a certain exercise.  These are logged and added to a workout.",
+                "required": [
+                    "exercise",
+                    "sets",
+                    "reps"
+                ],
+                "type": "object",
+                "properties": {
+                    "exercise": {
+                        "$ref": "#/components/schemas/Exercise",
+                        "description": "Exercise that sets and reps were completed for"
+                    },
+                    "sets": {
+                        "description": "Number of sets",
+                        "type": "number"
+                    },
+                    "reps": {
+                        "description": "Repetitions per set",
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Password_Oauth2": {
+                "flows": {
+                    "password": {
+                        "tokenUrl": "/oauth",
+                        "refreshUrl": "/refresh",
+                        "scopes": {
+                            "Standard Access Scope": "For standard user access"
+                        }
+                    }
+                },
+                "type": "oauth2",
+                "description": "Oauth2 \"Resource Owner Password Credentials\" scheme with access and refresh tokens"
+            },
+            "Access_Token": {
+                "type": "apiKey",
+                "description": "After using Oauth2 to retrieve access token, can use access token to authenticate and authorize for protected endpoints (Authorization = Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
