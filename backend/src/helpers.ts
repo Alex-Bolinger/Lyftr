@@ -57,7 +57,7 @@ export function authenticateToken (req, res, next) {
         if (err) return res.sendStatus(403);
         req.email = email;
         next();
-    })
+    });
 }
 
 export function hashPass (pass) {
