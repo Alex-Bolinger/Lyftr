@@ -1,8 +1,7 @@
-
 import React from 'react';
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar/postLoginNavbar';
   
-const Profile = () => {
+const Home = () => {
   return (
     <div
       style={{
@@ -12,14 +11,10 @@ const Profile = () => {
         height: '80vh'
       }}
     >
-      <div>
-        <Navbar/>
-      </div>
-      <div>
-        <h1>Profile</h1>
-      </div>
+      <Navbar/>
+      <h1>Home</h1>
     </div>
   );
 };
   
-export default Profile;
+export default Home;
