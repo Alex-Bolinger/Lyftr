@@ -17,7 +17,7 @@ import {generateCommentID, generatePictureID, generateUserID, generateWorkoutID}
     ]
  */
 
-function getWorkouts (req, res, next) {
+function getWorkouts (req, res) {
     // TODO
     res.status(200).json([
         {
@@ -100,7 +100,7 @@ function getWorkouts (req, res, next) {
 
     Response: 200 OK
  */
-function updateWorkout (req, res, next) {
+function updateWorkout (req, res) {
     // TODO
     res.status(200);
 }
@@ -113,7 +113,7 @@ function updateWorkout (req, res, next) {
 
     Response: 200 OK
  */
-function addWorkout (req, res, next) {
+function addWorkout (req, res) {
     // TODO
     res.status(200);
 }
@@ -134,7 +134,7 @@ function addWorkout (req, res, next) {
         ...
     ]
  */
-function getComments (req, res, next) {
+function getComments (req, res) {
     // TODO
     res.status(200).json([
         {
@@ -159,7 +159,7 @@ function getComments (req, res, next) {
 
     Response: 200 OK
  */
-function updateComment (req, res, next) {
+function updateComment (req, res) {
     // TODO
     res.status(200);
 }
@@ -171,7 +171,7 @@ function updateComment (req, res, next) {
 
     Response: 200 OK
  */
-function addComment (req, res, next) {
+function addComment (req, res) {
     // TODO
     res.status(200);
 }
@@ -192,7 +192,7 @@ function addComment (req, res, next) {
         ...
     ]
  */
-function getPictures (req, res, next) {
+function getPictures (req, res) {
     // TODO
     res.status(200).json([
         {
@@ -215,7 +215,7 @@ function getPictures (req, res, next) {
 
     Response: 201 CREATED
  */
-function addPicture (req, res, next) {
+function addPicture (req, res) {
     // TODO
     res.status(201);
 }
@@ -227,7 +227,7 @@ function addPicture (req, res, next) {
 
     Response: 200 OK
  */
-function deletePicture (req, res, next) {
+function deletePicture (req, res) {
     // TODO
     res.status(200);
 }

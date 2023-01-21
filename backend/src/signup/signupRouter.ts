@@ -1,6 +1,6 @@
 const signupRouter = require("express").Router();
 const signupController = require("./signupController");
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 // signup (with middleware input validation)
 signupRouter.post(
