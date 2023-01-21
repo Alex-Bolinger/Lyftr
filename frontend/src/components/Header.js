@@ -1,8 +1,8 @@
-import React from "react";
-import { AuthContext } from "../App";
+import React from 'react'
+import { AuthContext } from '../App'
 
 export const Header = () => {
-  const { state, dispatch } = React.useContext(AuthContext);
+  const { state, dispatch } = React.useContext(AuthContext)
   return (
     <nav id="navigation">
       <h1 href="#" className="logo">
@@ -11,7 +11,7 @@ export const Header = () => {
       <button
         onClick={() =>
           dispatch({
-            type: "LOGOUT"
+            type: 'LOGOUT'
           })
         }
       >
@@ -20,7 +20,7 @@ export const Header = () => {
         )}
       </button>
     </nav>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

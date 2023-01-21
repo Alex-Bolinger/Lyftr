@@ -1,66 +1,66 @@
-import React from "react";
-import logo from "../logo.svg";
-import { AuthContext } from "../App";
+import React from 'react'
+import logo from '../logo.svg'
+import { AuthContext } from '../App'
 
 export const Login = () => {
-  const { dispatch } = React.useContext(AuthContext);
+  const { dispatch } = React.useContext(AuthContext)
   const initialState = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     isSubmitting: false,
     errorMessage: null
-  };
+  }
 
-  const [data, setData] = React.useState(initialState);
+  const [data, setData] = React.useState(initialState)
 
   const handleInputChange = event => {
     setData({
       ...data,
       [event.target.name]: event.target.value
-    });
-  };
+    })
+  }
 
   const handleFormSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     setData({
       ...data,
       isSubmitting: true,
       errorMessage: null
-    });
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    })
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
 
-    let raw = JSON.stringify({
-          "email": data.email,
-          "password": data.password
-    });
+    const raw = JSON.stringify({
+      email: data.email,
+      password: data.password
+    })
 
-    let requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-    fetch("http://127.0.0.1:3001/api/login", requestOptions)
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    }
+    fetch('http://127.0.0.1:3001/api/login', requestOptions)
       .then(res => {
-          if (res.ok) {
-              return res.json();
-          } else {
-              throw res;
-          }
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw res
+        }
       }).then(resJson => {
-          dispatch({
-              type: "LOGIN",
-              payload: resJson
-          })
-    }).catch(error => {
-      setData({
+        dispatch({
+          type: 'LOGIN',
+          payload: resJson
+        })
+      }).catch(error => {
+        setData({
           ...data,
           isSubmitting: false,
           errorMessage: error.message || error.statusText
-      });
-    });
-  };
+        })
+      })
+  }
 
   return (
     <div className="login-container">
@@ -95,17 +95,19 @@ export const Login = () => {
             )}
 
             <button disabled={data.isSubmitting}>
-              {data.isSubmitting ? (
+              {data.isSubmitting
+                ? (
                 <img className="spinner" src={logo} alt="loading icon" />
-              ) : (
-                "Login"
-              )}
+                  )
+                : (
+                    'Login'
+                  )}
             </button>
           </form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
