@@ -15,7 +15,7 @@ const cockDB = require("../cockDB");
 
     Response: LoginResponse
     {
-        access_token: access token
+        token: access token
     }
  */
 function signup (req, res) {
@@ -67,10 +67,11 @@ function signup (req, res) {
                     hashed_pass: await hashPass(userPassword),
                     created: Date.now()
                 });
-            }).then(function() {
+            }).then(function(user) {
                 // Now generate and return access token
                 res.status(200).json({
-                    access_token: generateAccessToken(userEmail)
+                    user: user,
+                    token: generateAccessToken(userEmail)
                 });
             }).catch(function(err) {
                 res.status(500).json({ message: err });
