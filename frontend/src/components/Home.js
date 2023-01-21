@@ -9,7 +9,7 @@ export const Home = () => {
     globalDispatch({
       type: 'FETCH_WORKOUTS_REQUEST'
     })
-    fetch('http://127.0.0.1:3001/api/workouts', {
+    fetch('http://localhost:3001/api/workouts', {
       headers: {
         Authorization: `${globalState.token}`
       }
@@ -47,14 +47,18 @@ export const Home = () => {
           ? (
         <span className="error">AN ERROR HAS OCCURED</span>
             )
-          : (
+          : globalState.workouts.length === 0
+            ? (
+              <h1>No workouts logged!</h1>
+              )
+            : (
         <>
           {globalState.workouts.length > 0 &&
               globalState.workouts.map(workout => (
               <Card key={workout.id.toString()} workout={workout} />
               ))}
         </>
-            )}
+              )}
     </div>
     </React.Fragment>
   )
