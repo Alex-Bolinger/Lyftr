@@ -1,6 +1,8 @@
 const { Sequelize } = require("sequelize-cockroachdb");
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.CRDB_URL, {
+    dialect: "postgres"
+});
 
 // Tables
 const Profile = sequelize.define("profile", {
@@ -34,7 +36,7 @@ const User = sequelize.define("user", {
         type: Sequelize.JSON
     },
     created: {
-        type: Sequelize.TIMESTAMP
+        type: Sequelize.DATE // TIMESTAMP WITH TIME ZONE
     }
 });
 
@@ -63,10 +65,10 @@ const Workout = sequelize.define("workout", {
         type: Sequelize.TEXT
     },
     start_time: {
-        type: Sequelize.TIMESTAMP
+        type: Sequelize.DATE // TIMESTAMP WITH TIME ZONE
     },
     end_time: {
-        type: Sequelize.TIMESTAMP
+        type: Sequelize.DATE // TIMESTAMP WITH TIME ZONE
     },
     activities: {
         type: Sequelize.JSON
@@ -102,11 +104,11 @@ const Workout_Comment = sequelize.define("workout_comment", {
     }
 })
 
-function get() {
+function getDB() {
     return sequelize;
 }
 
-function close() {
+function closeDB() {
     return new Promise<void>((resolve) => {
         sequelize.close().then(resolve());
     })
@@ -125,8 +127,8 @@ function query(queryString) {
 }
 
 module.exports = {
-    get,
-    close,
+    getDB,
+    closeDB,
     query,
     Profile,
     User,
