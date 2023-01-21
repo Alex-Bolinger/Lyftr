@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function SignUp() {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+    const [accessToken, setAccessToken] = useState("");
 
   const navigate = useNavigate();
 
@@ -46,10 +47,15 @@ fetch("http://127.0.0.1:3001/api/signup", requestOptions)
   .then(response => response.text())
   .then(result => {
     let res = JSON.parse(result);
+<<<<<<< Updated upstream
     //const [accessToken, setAccessToken] = useState(res);
+=======
+    console.log(res);
+    setAccessToken(res);
+    setIsSubmitted(true);
+>>>>>>> Stashed changes
   })
   .catch(error => console.log('error', error));
-      setIsSubmitted(true);
 
     } else {
       window.alert("Password Mismatch!");
@@ -99,7 +105,7 @@ fetch("http://127.0.0.1:3001/api/signup", requestOptions)
     <div className="app">
       <div className="login-form">
         <div className="title">Sign Up</div>
-        {isSubmitted ? navigate('/Home', {state: {loggedIn: true}}) : renderForm}
+        {isSubmitted ? navigate('/Home', {state: {accessToken: accessToken}}) : renderForm}
       </div>
     </div>
     </div>

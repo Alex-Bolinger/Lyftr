@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import React from 'react';
 import Navbar from './components/Navbar/postLoginNavbar';
 import Button from '@mui/material/Button';
@@ -5,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Grid from "@mui/material/Grid";
   
 const Home = () => {
+  console.log(useLocation().state);
   return (
     <div
       style={{

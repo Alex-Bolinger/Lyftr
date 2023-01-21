@@ -1,8 +1,10 @@
 
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/postLoginNavbar'
   
 const Profile = () => {
+  console.log(state);
   return (
     <div
       style={{
