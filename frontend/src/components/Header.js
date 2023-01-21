@@ -1,8 +1,8 @@
 import React from 'react'
-import { AuthContext } from '../App'
+import { GlobalContext } from '../App'
 
 export const Header = () => {
-  const { state, dispatch } = React.useContext(AuthContext)
+  const { globalState, globalDispatch } = React.useContext(GlobalContext)
   return (
     <nav id="navigation">
       <h1 href="#" className="logo">
@@ -10,41 +10,41 @@ export const Header = () => {
       </h1>
       <button
         onClick={() =>
-          dispatch({
+          globalDispatch({
             type: 'PROFILE'
           })}>
-            {state.isAuthenticated && (
+            {globalState.isAuthenticated && (
               <h1>Profile</h1>
             )}
       </button>
       <button
         onClick={() =>
-          dispatch({
+          globalDispatch({
             type: 'SIGNUPSCREEN'
           })}>
-        {!state.isAuthenticated && (
+        {!globalState.isAuthenticated && (
           <h1>Sign Up</h1>
         )}
         </button>
 
       <button
         onClick={() =>
-          dispatch({
+          globalDispatch({
             type: 'LOGINSCREEN'
           })}>
-        {!state.isAuthenticated && (
+        {!globalState.isAuthenticated && (
           <h1>Login</h1>
         )}
         </button>
 
       <button
         onClick={() =>
-          dispatch({
+          globalDispatch({
             type: 'LOGOUT'
           })
         }
       >
-        {state.isAuthenticated && (
+        {globalState.isAuthenticated && (
           <h1>LOGOUT</h1>
         )}
       </button>

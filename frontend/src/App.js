@@ -5,18 +5,26 @@ import Home from './components/Home'
 import Header from './components/Header'
 import SignUp from './components/SignUp'
 import Profile from './components/Profile'
+import AddWorkout from './components/AddWorkout'
 
-export const AuthContext = React.createContext()
-
-const initialState = {
+// Auth state context
+const globalInitialState = {
   isAuthenticated: false,
+  log: false,
   user: null,
   token: null,
   login: true,
-  profile: false
+  profile: false,
+  workouts: [],
+  isFetching: false,
+  hasError: false,
+  isWorkoutSubmitting: false,
+  workoutHasError: false
 }
+export const GlobalContext = React.createContext(globalInitialState)
 
-const reducer = (state, action) => {
+// Global reducer
+const globalReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
       localStorage.setItem('user', JSON.stringify(action.payload.user))
@@ -46,17 +54,64 @@ const reducer = (state, action) => {
     case 'LOGINSCREEN':
       return {
         ...state,
-        login: true
+        login: true,
+        profile: false,
+        log: false
       }
     case 'SIGNUPSCREEN':
       return {
         ...state,
-        login: false
+        login: false,
+        profile: false,
+        log: false
       }
     case 'PROFILE':
       return {
         ...state,
-        profile: true
+        profile: true,
+        log: false
+      }
+    case 'LOG':
+      return {
+        ...state,
+        log: true,
+        profile: false
+      }
+    case 'FETCH_WORKOUTS_REQUEST':
+      return {
+        ...state,
+        isFetching: true,
+        hasError: false
+      }
+    case 'FETCH_WORKOUTS_SUCCESS':
+      return {
+        ...state,
+        isFetching: false,
+        workouts: action.payload
+      }
+    case 'FETCH_WORKOUTS_FAILURE':
+      return {
+        ...state,
+        hasError: true,
+        isFetching: false
+      }
+    case 'ADD_WORKOUT_REQUEST':
+      return {
+        ...state,
+        isWorkoutSubmitting: true,
+        workoutHasError: false
+      }
+    case 'ADD_WORKOUT_SUCCESS':
+      return {
+        ...state,
+        isWorkoutSubmitting: false,
+        workouts: [...state.workouts, action.payload]
+      }
+    case 'ADD_WORKOUT_FAILURE':
+      return {
+        ...state,
+        isWorkoutSubmitting: false,
+        workoutHasError: true
       }
     default:
       return state
@@ -64,14 +119,14 @@ const reducer = (state, action) => {
 }
 
 function App () {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const [globalState, globalDispatch] = React.useReducer(globalReducer, globalInitialState)
 
   React.useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user') || null)
     const token = JSON.parse(localStorage.getItem('token') || null)
 
     if (user && token) {
-      dispatch({
+      globalDispatch({
         type: 'LOGIN',
         payload: {
           user,
@@ -81,15 +136,15 @@ function App () {
     }
   }, [])
   return (
-    <AuthContext.Provider
+    <GlobalContext.Provider
       value={{
-        state,
-        dispatch
+        globalState,
+        globalDispatch
       }}
     >
-      <Header />
-      <div className="App">{!state.isAuthenticated ? state.login ? <Login /> : <SignUp /> : state.profile ? <Profile /> : <Home />}</div>
-    </AuthContext.Provider>
+        <Header />
+        <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <AddWorkout/> : <Home />}</div>
+    </GlobalContext.Provider>
   )
 }
 

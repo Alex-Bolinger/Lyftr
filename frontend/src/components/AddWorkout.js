@@ -1,11 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { Grid, Paper, Button, FormControl, Input, InputLabel } from '@mui/material'
-import { WorkoutContext } from './Home'
-import { AuthContext } from '../App'
+import { Grid, Paper, Button, Input, InputLabel } from '@mui/material'
+import { GlobalContext } from '../App'
 
 const AddWorkout = () => {
-  const { state: authState } = useContext(AuthContext)
-  const { workoutState, workoutDispatch } = useContext(WorkoutContext)
+  const { globalState, globalDispatch } = useContext(GlobalContext)
 
   const [name, setName] = useState('')
   const [startTime, setStartTime] = useState('')
@@ -15,7 +13,7 @@ const AddWorkout = () => {
   // const isButtonDisabled = name === '' || startTime === '' || endTime === '' || activities === [] || workoutState.isWorkoutSubmitting
 
   const onSubmit = () => {
-    workoutDispatch({
+    globalDispatch({
       type: 'ADD_WORKOUT_REQUEST'
     })
     const workout = {
@@ -27,7 +25,7 @@ const AddWorkout = () => {
     fetch('http://127.0.0.1:3001/api/workouts', {
       method: 'POST',
       headers: {
-        Authorization: `${authState.token}`,
+        Authorization: `${globalState.token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(workout)
@@ -45,12 +43,12 @@ const AddWorkout = () => {
         setStartTime('')
         setEndTime('')
         setActivities([])
-        workoutDispatch({
+        globalDispatch({
           type: 'ADD_WORKOUT_SUCCESS',
           payload: data
         })
       }).catch(error => {
-        workoutDispatch({
+        globalDispatch({
           type: 'ADD_WORKOUT_FAILURE'
         })
         console.log(error)
