@@ -37,6 +37,7 @@ function login (req, res) {
         const hashedPassword = user.hashed_pass;
         const hashedPasswordAttempt = await hashPassWithSalt(passwordAttempt, hashedPassword.hash_salt);
 
+        // @ts-ignore
         if (hashedPassword.hash_pass != hashedPasswordAttempt.hash_pass) {
             return res.status(401).json({ message: "Incorrect email / password combination!" });
         }
