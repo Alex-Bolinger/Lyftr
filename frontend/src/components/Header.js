@@ -11,6 +11,15 @@ export const Header = () => {
       <button
         onClick={() =>
           dispatch({
+            type: 'PROFILE'
+          })}>
+            {state.isAuthenticated && (
+              <h1>Profile</h1>
+            )}
+      </button>
+      <button
+        onClick={() =>
+          dispatch({
             type: 'SIGNUPSCREEN'
           })}>
         {!state.isAuthenticated && (
@@ -36,7 +45,7 @@ export const Header = () => {
         }
       >
         {state.isAuthenticated && (
-          <h1>Hi {state.user.token} (LOGOUT)</h1>
+          <h1>LOGOUT</h1>
         )}
       </button>
     </nav>

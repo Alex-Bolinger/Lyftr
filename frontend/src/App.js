@@ -4,6 +4,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import Header from './components/Header'
 import SignUp from './components/SignUp'
+import Profile from './components/Profile'
 
 export const AuthContext = React.createContext()
 
@@ -11,7 +12,8 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   token: null,
-  login: true
+  login: true,
+  profile: false
 }
 
 const reducer = (state, action) => {
@@ -51,6 +53,11 @@ const reducer = (state, action) => {
         ...state,
         login: false
       }
+    case 'PROFILE':
+      return {
+        ...state,
+        profile: true
+      }
     default:
       return state
   }
@@ -81,7 +88,7 @@ function App () {
       }}
     >
       <Header />
-      <div className="App">{!state.isAuthenticated ? state.login ? <Login /> : <SignUp /> : <Home />}</div>
+      <div className="App">{!state.isAuthenticated ? state.login ? <Login /> : <SignUp /> : state.profile ? <Profile /> : <Home />}</div>
     </AuthContext.Provider>
   )
 }
