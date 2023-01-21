@@ -56,7 +56,7 @@ function getWorkouts (req, res) {
             // Unwrap activities
             for (let workout in workouts) {
                 // @ts-ignore
-                workout.activities = unwrapJSONToArray(workout.activities);
+                workouts[workout].activities = unwrapJSONToArray(workouts[workout].activities);
             }
             res.status(200).json(workouts);
         }).catch(function(error) {

@@ -9,7 +9,15 @@ const port = process.env.PORT;
 const server = express();
 
 // CORS
-server.use(cors({ origin: true }))
+server.use(
+    cors({
+        allowedHeaders: ["Authorization", "Content-Type"], // you can change the headers
+        exposedHeaders: ["Authorization"], // you can change the headers
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false
+    })
+);
 
 // Body parser middleware
 const BodyParser = require("body-parser");
