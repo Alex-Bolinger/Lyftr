@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from './components/Navbar'
 import { useNavigate } from "react-router-dom";
+import Home from "./home";
 
 
 
@@ -57,7 +58,7 @@ const Login = () => {
     <div className="app">
       <div className="login-form">
         <div className="title">Log In</div>
-        {isSubmitted ? navigate('/', {state: {loggedIn: true}}) : renderForm}
+        {isSubmitted ? navigate('/Home', {state: {loggedIn: true}}) : renderForm}
       </div>
     </div>
     </div>
