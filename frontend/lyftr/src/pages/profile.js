@@ -1,10 +1,9 @@
-
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar/postLoginNavbar'
-  
+import { AuthContext } from "../App";
+
 const Profile = () => {
-  console.log(state);
+    const { authState, authDispatch } = React.useContext(AuthContext);
+
   return (
     <div
       style={{
@@ -14,12 +13,7 @@ const Profile = () => {
         height: '80vh'
       }}
     >
-      <div>
-        <Navbar/>
-      </div>
-      <div>
         <h1>Profile</h1>
-      </div>
     </div>
   );
 };

@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import Navbar from './components/Navbar'
 import { useNavigate } from "react-router-dom";
-import Home from "./home";
 
-
-
-  
 const Login = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-
 
   const navigate = useNavigate();
 
@@ -22,8 +17,6 @@ const Login = () => {
     console.log(pass);
     setIsSubmitted(true);
   };
-
-
 
   // JSX code for login form
   const renderForm = (
@@ -54,7 +47,6 @@ const Login = () => {
         fontSize: '14px'
       }}
     >
-      <Navbar/>
     <div className="app">
       <div className="login-form">
         <div className="title">Log In</div>

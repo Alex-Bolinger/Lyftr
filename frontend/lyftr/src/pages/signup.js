@@ -1,58 +1,72 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
 import { useNavigate } from "react-router-dom";
-
-
+import { AuthContext } from "../App";
   
 function SignUp() {
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-    const [accessToken, setAccessToken] = useState("");
-
+    const { authState, authDispatch } = React.useContext(AuthContext);
+    let initialData = {
+        email: "",
+        password: "",
+        isSubmitting: false,
+        error: null
+    }
+    const { data, setData } = React.useState(initialData);
   const navigate = useNavigate();
-
 
   const handleSubmit = (event) => {
     //Prevent page reload
     event.preventDefault();
 
-    var { name, email, pass, confirm } = document.forms[0];
-    console.log(name);
-    console.log(email);
-    console.log(pass);
+    setData({
+        ...data,
+        isSubmitting: true,
+        errorMessage: null
+    });
+
+    let { name, email, pass, confirm } = document.forms[0];
     if (pass.value === confirm.value) {
       //send info to backend
       console.log(name);
       console.log(email);
 
-      var myHeaders = new Headers();
+      let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      var raw = JSON.stringify({
+      let raw = JSON.stringify({
           "user_credentials": {
               "email": email.value,
               "password": pass.value
-       },
-    "user_name": name.value
-});
+          },
+          "user_name": name.value
+      });
 
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+      let requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+      };
 
-fetch("http://127.0.0.1:3001/api/signup", requestOptions)
-  .then(response => response.text())
-  .then(result => {
-    let res = JSON.parse(result);
-    console.log(res);
-    setAccessToken(res);
-    setIsSubmitted(true);
-  })
-  .catch(error => console.log('error', error));
-
+      fetch("http://127.0.0.1:3001/api/signup", requestOptions)
+          .then(res => {
+              if (res.ok) {
+                  return res.json();
+              } else {
+                  throw res;
+              }
+          }).then(resJson => {
+              authDispatch({
+                  type: "LOGIN",
+                  payload: resJson
+              })
+      }).catch(error => {
+          setData({
+              ...data,
+              isSubmitting: false,
+              errorMessage: error.message || error.statusText
+          });
+      });
     } else {
       window.alert("Password Mismatch!");
     }
@@ -88,23 +102,7 @@ fetch("http://127.0.0.1:3001/api/signup", requestOptions)
   );
 
   return (
-    <div
-      style={{
-        display: 'inline',
-        justifyContent: 'left',
-        alignItems: 'left',
-        height: '80vh',
-        fontSize: '14px'
-      }}
-    >
-      <Navbar/>
-    <div className="app">
-      <div className="login-form">
-        <div className="title">Sign Up</div>
-        {isSubmitted ? navigate('/Home', {state: {accessToken: accessToken}}) : renderForm}
-      </div>
-    </div>
-    </div>
+    <SignUp></SignUp>
   );
 };
   
