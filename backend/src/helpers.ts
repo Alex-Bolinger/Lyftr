@@ -1,8 +1,17 @@
+const { v4: uuidv4 } = require("uuid");
 const nodeCrypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const keyLen = 64;
 const iterations = 100;
 const digest = "sha256";
+
+export function generateProfileID() {
+    return "profile_" + uuidv4();
+}
+
+export function generateUserID () {
+    return "user_" + uuidv4();
+}
 
 export function generateAccessToken (email) {
     return (jwt.sign(email, process.env.JWT_SECRET, {}));

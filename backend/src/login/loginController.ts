@@ -1,4 +1,4 @@
-const { hashPass, isValidPass, generateAccessToken } = require("../helpers");
+import { hashPass, generateAccessToken } from "../helpers";
 
 /*
     POST /login
