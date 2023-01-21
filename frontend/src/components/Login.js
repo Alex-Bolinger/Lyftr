@@ -3,7 +3,7 @@ import logo from '../logo.svg'
 import { GlobalContext } from '../App'
 
 export const Login = () => {
-  const { dispatch } = React.useContext(GlobalContext)
+  const { globalState, globalDispatch } = React.useContext(GlobalContext)
   const initialState = {
     email: '',
     password: '',
@@ -49,7 +49,7 @@ export const Login = () => {
           throw res
         }
       }).then(resJson => {
-        dispatch({
+        globalDispatch({
           type: 'LOGIN',
           payload: resJson
         })
