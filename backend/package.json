@@ -1,0 +1,11 @@
+{
+  "name": "lyftr-backend",
+  "version": "1.0.0",
+  "description": "Backend for Lyftr application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aiden Gonzalez and Alex Bolinger",
+  "license": "ISC"
+}
