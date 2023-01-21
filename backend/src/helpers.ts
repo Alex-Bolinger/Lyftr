@@ -4,11 +4,11 @@ const keyLen = 64;
 const iterations = 100;
 const digest = "sha256";
 
-function generateAccessToken (email) {
+export function generateAccessToken (email) {
     return (jwt.sign(email, process.env.JWT_SECRET, {}));
 }
 
-function authenticateToken (req, res, next) {
+export function authenticateToken (req, res, next) {
     const token = req.get("Authorization");
     if (token == null) return res.sendStatus(401);
 
@@ -19,7 +19,7 @@ function authenticateToken (req, res, next) {
     })
 }
 
-function hashPass (pass) {
+export function hashPass (pass) {
     return new Promise((resolve, reject) => {
         const salt = nodeCrypto.randomBytes(keyLen).toString("base64");
         nodeCrypto.pbkdf2(pass, salt, iterations, keyLen, digest, (err, key) => {
@@ -35,7 +35,7 @@ function hashPass (pass) {
     });
 }
 
-function isValidPass (actualHash, givenPassword) {
+export function isValidPass (actualHash, givenPassword) {
     return new Promise((resolve, reject) => {
         nodeCrypto.pbkdf2(givenPassword, actualHash.hash_salt, iterations, keyLen, digest, (err, hashedGivenPassword) => {
             if (err) {
@@ -46,10 +46,3 @@ function isValidPass (actualHash, givenPassword) {
         });
     });
 }
-
-module.exports = {
-    generateAccessToken,
-    authenticateToken,
-    hashPass,
-    isValidPass
-};
