@@ -21,11 +21,20 @@ const User = sequelize.define("user", {
         type: Sequelize.TEXT,
         primaryKey: true
     },
-    full_name: {
+    email: {
         type: Sequelize.TEXT
     },
-    picture_link: {
+    user_name: {
         type: Sequelize.TEXT
+    },
+    profile_id: {
+        type: Sequelize.TEXT
+    },
+    hashed_pass: {
+        type: Sequelize.JSON
+    },
+    created: {
+        type: Sequelize.TIMESTAMP
     }
 });
 

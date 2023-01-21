@@ -52,36 +52,36 @@ function signup (req, res, next) {
                 id: profileID,
                 full_name: userName,
                 picture_link: ""
-            })
-        }).then(
-
-        ).catch(function(err) {
+            });
+        }).then(function() {
+            // Profile created - now create user
+            const userPassword = req.body.user_credentials.password;
+            const userID = generateUserID();
+            cockDB.User.sync({
+                force: false
+            }).then(async function() {
+                return cockDB.User.create({
+                    id: userID,
+                    email: userEmail,
+                    user_name: userName,
+                    profile_id: profileID,
+                    hashed_pass: await hashPass(userPassword),
+                    created: Date.now()
+                });
+            }).then(function() {
+                // Now generate and return access token
+                res.status(200).json({
+                    access_token: generateAccessToken(userEmail)
+                });
+            }).catch(function(err) {
+                res.status(500).json({ message: err });
+            });
+        }).catch(function(err) {
             res.status(500).json({ message: err });
-        })
+        });
     }).catch(function(err) {
         res.status(500).json({ message: err });
-    })
-    const password = req.body.user_credentials.password;
-
-    const userID = generateUserID();
-
-
-    // Create new user profile
-    cockDB.Profile.sync({
-        force: false
-    }).then(() => {
-
-    })
-
-    if (true) {
-        // Create jwt token
-        const jwtToken = generateAccessToken({ email: email });
-        return res.status(200).json({
-            access_token: jwtToken
-        });
-    } else {
-        return res.status(401).json({ message: "Invalid email/password combination!" });
-    }
+    });
 }
 
 module.exports = {
