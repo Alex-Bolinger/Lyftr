@@ -11,6 +11,26 @@ export const Header = () => {
       <button
         onClick={() =>
           dispatch({
+            type: "SIGNUPSCREEN"
+          })}>
+        {!state.isAuthenticated&& (
+          <h1>Sign Up</h1>
+        )}
+        </button>
+        
+      <button
+        onClick={() =>
+          dispatch({
+            type: "LOGINSCREEN"
+          })}>
+        {!state.isAuthenticated && (
+          <h1>Login</h1>
+        )}
+        </button>
+
+      <button
+        onClick={() =>
+          dispatch({
             type: "LOGOUT"
           })
         }

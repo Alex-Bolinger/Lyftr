@@ -11,6 +11,18 @@
   margin-top: 70px;
 }
 
+.SignUp-container{
+  display: flex;
+  align-items: center;
+  background-image: url("./assets/carry-on-colour.svg");
+  height: calc(100vh - 70px);
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-top: 70px;
+}
+
 .card {
   /* Add shadows to create the "card" effect */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -36,6 +48,24 @@
 }
 
 .login-container .container form{
+  display: flex;
+  height: 80%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-self: center;
+}
+
+.SignUplogin-container .container {
+  padding-left: 7%;
+  padding-right: 7%;
+  height: 100%;
+}
+
+.SignUp-container .container h1{
+  font-size: 2.5rem;
+}
+
+.SignUp-container .container form{
   display: flex;
   height: 80%;
   flex-direction: column;
@@ -72,6 +102,24 @@ label{
 
 
 .login-container button:focus{
+  outline: none !important;
+}
+
+.SignUp-container button{
+  height: 40px;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #F42B4B;
+  color: rgb(255, 255, 255);
+}
+
+.SignUp-container button:hover{
+  background-color: rgb(151, 25, 46);
+  cursor: pointer;
+}
+
+
+.SignUp-container button:focus{
   outline: none !important;
 }
 
@@ -113,6 +161,18 @@ label{
   
 }
 
+@media screen and (max-width: 700px){
+  .SignUp-container{
+    justify-content: center;
+    background-image: none;
+  }
+  .card {
+    width: 80%;
+    align-self: center;
+  }
+  
+}
+
 @media screen and (max-width: 350px){
   .card {
     width: 100%;
@@ -132,8 +192,8 @@ label{
   position: fixed;
   z-index: 10;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-wrap: nowrap;
+  justify-content: right;
   background-color: #F42B4B;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   height: 70px;
@@ -145,12 +205,16 @@ label{
 
 #navigation h1{
   color: white;
+  padding-right: 76%;
+  flex-wrap: nowrap;
+  width: 100px;
 }
 
 #navigation button{
   background-color: transparent;
   border: none;
   align-self: center;
+  
 }
 
 #navigation button:hover{
