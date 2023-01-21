@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from '../logo.svg'
-import { AuthContext } from '../App'
+import { GlobalContext } from '../App'
 
 export const Login = () => {
-  const { dispatch } = React.useContext(AuthContext)
+  const { dispatch } = React.useContext(GlobalContext)
   const initialState = {
     email: '',
     password: '',

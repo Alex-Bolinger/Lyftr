@@ -1,5 +1,5 @@
 import React from 'react'
-import { AuthContext } from '../App'
+import { GlobalContext } from '../App'
 import Card from './Card'
 
 const initialProfileState = {
@@ -26,7 +26,7 @@ const reducer = (state, action) => {
 }
 
 export const Home = () => {
-  const { state: authState } = React.useContext(AuthContext)
+  const { state: authState } = React.useContext(GlobalContext)
   const [profileState, profileDispatch] = React.useReducer(reducer, initialProfileState)
 
   React.useEffect(() => {

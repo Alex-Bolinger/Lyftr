@@ -5,7 +5,7 @@ import Home from './components/Home'
 import Header from './components/Header'
 import SignUp from './components/SignUp'
 import Profile from './components/Profile'
-import AddWorkout from './components/AddWorkout'
+import LogWorkout from './components/LogWorkout'
 
 // Auth state context
 const globalInitialState = {
@@ -95,19 +95,19 @@ const globalReducer = (state, action) => {
         hasError: true,
         isFetching: false
       }
-    case 'ADD_WORKOUT_REQUEST':
+    case 'LOG_WORKOUT_REQUEST':
       return {
         ...state,
         isWorkoutSubmitting: true,
         workoutHasError: false
       }
-    case 'ADD_WORKOUT_SUCCESS':
+    case 'LOG_WORKOUT_SUCCESS':
       return {
         ...state,
         isWorkoutSubmitting: false,
         workouts: [...state.workouts, action.payload]
       }
-    case 'ADD_WORKOUT_FAILURE':
+    case 'LOG_WORKOUT_FAILURE':
       return {
         ...state,
         isWorkoutSubmitting: false,
@@ -143,7 +143,7 @@ function App () {
       }}
     >
         <Header />
-        <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <AddWorkout/> : <Home />}</div>
+        <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <LogWorkout/> : <Home />}</div>
     </GlobalContext.Provider>
   )
 }

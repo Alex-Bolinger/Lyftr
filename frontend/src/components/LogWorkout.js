@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Grid, Paper, Button, Input, InputLabel } from '@mui/material'
 import { GlobalContext } from '../App'
 
-const AddWorkout = () => {
+const LogWorkout = () => {
   const { globalState, globalDispatch } = useContext(GlobalContext)
 
   const [name, setName] = useState('')
@@ -14,9 +14,10 @@ const AddWorkout = () => {
 
   const onSubmit = () => {
     globalDispatch({
-      type: 'ADD_WORKOUT_REQUEST'
+      type: 'LOG_WORKOUT_REQUEST'
     })
     const workout = {
+      user_id: globalState.user.id,
       name,
       startTime,
       endTime,
@@ -44,12 +45,12 @@ const AddWorkout = () => {
         setEndTime('')
         setActivities([])
         globalDispatch({
-          type: 'ADD_WORKOUT_SUCCESS',
+          type: 'LOG_WORKOUT_SUCCESS',
           payload: data
         })
       }).catch(error => {
         globalDispatch({
-          type: 'ADD_WORKOUT_FAILURE'
+          type: 'LOG_WORKOUT_FAILURE'
         })
         console.log(error)
       })
@@ -144,4 +145,4 @@ const AddWorkout = () => {
   )
 }
 
-export default (AddWorkout)
+export default (LogWorkout)
