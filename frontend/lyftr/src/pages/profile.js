@@ -13,6 +13,15 @@ const Profile = () => {
         height: '80vh'
       }}
     >
+      <script>
+        const [token, dispatchToken] = useContext(AuthContext);
+        dispatchToken(useLocation().state.accessToken);
+        console.log(token)
+      </script>
+      <div>
+        <Navbar/>
+      </div>
+      <div>
         <h1>Profile</h1>
     </div>
   );

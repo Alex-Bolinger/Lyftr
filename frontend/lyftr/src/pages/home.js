@@ -1,7 +1,10 @@
-import React from 'react';
+import { useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import Navbar from './components/Navbar/postLoginNavbar';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Grid from "@mui/material/Grid";
+import { AuthContext } from '../App';
   
 const Home = () => {
   return (
@@ -12,7 +15,13 @@ const Home = () => {
         alignItems: 'Right',
         height: '80vh'
       }}
-    >````````
+    >
+      <script>
+        const [token, dispatchToken] = useContext(AuthContext);
+        dispatchToken(useLocation().state.accessToken);
+        console.log(token);
+      </script>
+      <Navbar/>
         <Paper style={{ margin: "20px" }} elevation={24}>
             <Grid container spacing={1}>
                 <h2 style={{

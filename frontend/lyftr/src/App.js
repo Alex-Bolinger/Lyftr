@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import React from "react";
+=======
+import React, { createContext, useState } from "react";
+>>>>>>> Stashed changes
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Profile from './pages/profile';
@@ -7,6 +11,7 @@ import SignUp from './pages/signup';
 import Home from "./pages/home";
 import Navbar from "./pages/components/Navbar/index";
 
+<<<<<<< Updated upstream
 // Auth state
 const initialAuth = {
   isAuthenticated: false,
@@ -41,6 +46,11 @@ const reducer = (state, action) => {
 function App() {
   // Set up auth state / dispatch
   const [authState, authDispatch] = React.useReducer(reducer, initialAuth);
+=======
+export const AuthContext = createContext(null);
+
+function App() {
+>>>>>>> Stashed changes
   return (
       <AuthContext.Provider value={{authState, authDispatch}}>
         <Navbar/>
