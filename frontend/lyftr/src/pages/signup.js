@@ -1,16 +1,70 @@
-import React from 'react';
+import React, { useState } from "react";
+
+
   
 const SignUp = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+
+
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault();
+
+    var { name, email, pass, confirm } = document.forms[0];
+    if (pass.value === confirm.value) {
+      //send info to backend
+      setIsSubmitted(true);
+    } else {
+      window.alert("Password Mismatch!");
+    }
+  };
+
+
+
+  // JSX code for login form
+  const renderForm = (
+    <div className="form">
+      <form onSubmit={handleSubmit}>
+        <div className="input-container">
+          <label>Name </label>
+          <input type="text" name="name" required />
+          </div>
+        <div className="input-container">
+          <label>E-Mail </label>
+          <input type="text" name="email" required />
+        </div>
+        <div className="input-container">
+          <label>Password </label>
+          <input type="password" name="pass" required />
+        </div>
+        <div className="input-container">
+          <label>Confirm Password </label>
+          <input type="password" name="confirm" required />
+        </div>
+        <div className="button-container">
+          <input type="submit" />
+        </div>
+      </form>
+    </div>
+  );
+
   return (
     <div
       style={{
-        display: 'flex',
+        display: 'inline',
         justifyContent: 'left',
-        alignItems: 'Right',
-        height: '80vh'
+        alignItems: 'left',
+        height: '80vh',
+        fontSize: '14px'
       }}
     >
-      <h1>Sign Up</h1>
+    <div className="app">
+      <div className="login-form">
+        <div className="title">Sign Up</div>
+        {isSubmitted ? <div>User is successfully signed up</div> : renderForm}
+      </div>
+    </div>
     </div>
   );
 };
