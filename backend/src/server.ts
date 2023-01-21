@@ -9,7 +9,7 @@ const port = process.env.PORT;
 const server = express();
 
 // CORS
-server.use(cors());
+server.use(cors({ origin: true }))
 
 // Body parser middleware
 const BodyParser = require("body-parser");

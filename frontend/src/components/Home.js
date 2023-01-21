@@ -11,7 +11,7 @@ export const Home = () => {
     })
     fetch('http://localhost:3001/api/workouts', {
       headers: {
-        Authorization: `${globalState.token}`
+        Authorization: globalState.token
       }
     })
       .then(res => {
