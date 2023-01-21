@@ -38,7 +38,7 @@ function getProfiles (req, res) {
         cockDB.Profile.sync({
             force: false
         }).then(function() {
-            return cockDB.Profile.getAll();
+            return cockDB.Profile.findAll();
         }).then(function(profiles) {
             res.status(200).json(profiles);
         }).catch(function(error) {
