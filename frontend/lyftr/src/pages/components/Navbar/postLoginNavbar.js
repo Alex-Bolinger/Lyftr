@@ -3,9 +3,7 @@ import {
   Nav,
   NavLink,
   Bars,
-  NavMenu,
-  NavBtn,
-  NavBtnLink
+  NavMenu
 } from './NavbarElements';
 
 const PostNavbar = () => {
@@ -14,6 +12,7 @@ const PostNavbar = () => {
             <Nav>
                 <Bars />
                 <NavMenu>
+                    <h1 style={{ paddingLeft: "20px", paddingRight: "20px" }}>Lyftr</h1>
                     <NavLink to="/Home">Home</NavLink>
                     <NavLink to="/Profile">Profile</NavLink>
                 </NavMenu>

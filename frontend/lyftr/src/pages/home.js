@@ -1,5 +1,8 @@
 import React from 'react';
 import Navbar from './components/Navbar/postLoginNavbar';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Grid from "@mui/material/Grid";
   
 const Home = () => {
   return (
@@ -12,7 +15,20 @@ const Home = () => {
       }}
     >
       <Navbar/>
-      <h1>Home</h1>
+        <Paper style={{ margin: "20px" }} elevation={24}>
+            <Grid container spacing={1}>
+                <h2 style={{
+                    paddingLeft: "30px",
+                    paddingRight: "30px"
+                }}>
+                    Your recent activities:
+                </h2>
+                <Button variant="contained" style={{margin: "10px"}}>Start Logging</Button>
+            </Grid>
+            <Grid container spacing={1}>
+                Test
+            </Grid>
+        </Paper>
     </div>
   );
 };

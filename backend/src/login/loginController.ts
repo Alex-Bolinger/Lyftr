@@ -15,14 +15,14 @@ import { generateAccessToken } from "../helpers";
  */
 function login (req, res) {
     // Validate login information
-    const email = req.body.email;
-    // const password = req.body.password;
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
 
     // TODO Get hashed user password from database and verify match
     // TODO for now, assume valid
     if (true) {
         // Create jwt token
-        const jwtToken = generateAccessToken({ email: email });
+        const jwtToken = generateAccessToken({ email: userEmail });
         return res.status(200).json({
             access_token: jwtToken
         });

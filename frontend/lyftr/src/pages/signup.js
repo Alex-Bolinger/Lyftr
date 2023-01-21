@@ -34,6 +34,7 @@ function SignUp() {
        },
     "user_name": name.value
 });
+
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
@@ -45,7 +46,7 @@ fetch("http://127.0.0.1:3001/api/signup", requestOptions)
   .then(response => response.text())
   .then(result => {
     let res = JSON.parse(result);
-    const [accessToken, setAccessToken] = useState(res);
+    //const [accessToken, setAccessToken] = useState(res);
   })
   .catch(error => console.log('error', error));
       setIsSubmitted(true);

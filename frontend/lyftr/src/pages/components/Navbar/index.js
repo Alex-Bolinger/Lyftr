@@ -18,6 +18,7 @@ const Navbar = () => {
                 <NavBT>
                     <Bars />
                     <NavMenu>
+                        <h1 style={{ paddingLeft: "20px", paddingRight: "20px" }}>Lyftr</h1>
                         <NavBtn>
                             <NavBtnLink to='/login'>Login</NavBtnLink>
                         </NavBtn>
@@ -34,6 +35,7 @@ const Navbar = () => {
                 <Nav>
                     <Bars />
                     <NavMenu>
+                        <h1 style={{ paddingLeft: "20px", paddingRight: "20px" }}>Lyftr</h1>
                         <NavLink to="Home">Home</NavLink>
                         <NavLink to="Profile">Profile</NavLink>
                     </NavMenu>
