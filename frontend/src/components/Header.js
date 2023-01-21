@@ -11,17 +11,17 @@ export const Header = () => {
       <button
         onClick={() =>
           dispatch({
-            type: "SIGNUPSCREEN"
+            type: 'SIGNUPSCREEN'
           })}>
-        {!state.isAuthenticated&& (
+        {!state.isAuthenticated && (
           <h1>Sign Up</h1>
         )}
         </button>
-        
+
       <button
         onClick={() =>
           dispatch({
-            type: "LOGINSCREEN"
+            type: 'LOGINSCREEN'
           })}>
         {!state.isAuthenticated && (
           <h1>Login</h1>
@@ -31,7 +31,7 @@ export const Header = () => {
       <button
         onClick={() =>
           dispatch({
-            type: "LOGOUT"
+            type: 'LOGOUT'
           })
         }
       >
