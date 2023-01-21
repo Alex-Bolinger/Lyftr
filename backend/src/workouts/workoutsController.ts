@@ -1,4 +1,13 @@
-import { generateCommentID, generatePictureID, generateUserID, generateWorkoutID } from "../helpers";
+import {
+    generateCommentID,
+    generatePictureID,
+    generateUserID,
+    generateWorkoutID,
+    unwrapJSONToArray,
+    wrapArrayToJSON
+} from "../helpers";
+const cockDB = require("../cockDB");
+import { validationResult } from "express-validator";
 
 /*
     GET /workouts
@@ -19,76 +28,41 @@ import { generateCommentID, generatePictureID, generateUserID, generateWorkoutID
 
 function getWorkouts (req, res) {
     // Check for optional query parameter
-    res.status(200).json([
-        {
-            id: generateWorkoutID(),
-            user_id: generateUserID(),
-            start_time: Date.now(),
-            end_time: Date.now(),
-            name: "Afternoon Workout",
-            activities: [
-                {
-                    exercise: {
-                        name: "Bench Press",
-                        muscle_group: "Chest",
-                        muscles: [
-                            "pectorals",
-                            "deltoids",
-                            "triceps",
-                            "biceps"
-                        ]
-                    },
-                    sets: 3,
-                    reps: 10
-                },
-                {
-                    exercise: {
-                        name: "Bicep Curl",
-                        muscle_group: "Arms",
-                        muscles: [
-                            "biceps"
-                        ]
-                    },
-                    sets: 3.5,
-                    reps: 12
+    let workout_id = req.query.id
+
+    if (workout_id != null) {
+        // Fetch this specific workout
+        cockDB.Workout.sync({
+            force: false
+        }).then(function() {
+            return cockDB.Workout.findOne({
+                where: {
+                    id: workout_id
                 }
-            ]
-        },
-        {
-            id: generateWorkoutID(),
-            user_id: generateUserID(),
-            start_time: Date.now(),
-            end_time: Date.now(),
-            name: "Afternoon Workout",
-            activities: [
-                {
-                    exercise: {
-                        name: "Bench Press",
-                        muscle_group: "Chest",
-                        muscles: [
-                            "pectorals",
-                            "deltoids",
-                            "triceps",
-                            "biceps"
-                        ]
-                    },
-                    sets: 3,
-                    reps: 10
-                },
-                {
-                    exercise: {
-                        name: "Bicep Curl",
-                        muscle_group: "Arms",
-                        muscles: [
-                            "biceps"
-                        ]
-                    },
-                    sets: 3.5,
-                    reps: 12
-                }
-            ]
-        }
-    ]);
+            });
+        }).then(function(workout) {
+            res.status(200).json(workout);
+        }).catch(function(error) {
+            res.status(500).json({ message: error });
+        })
+    } else {
+        // Fetch all workouts
+        // TODO add paging in future
+        cockDB.Workout.sync({
+            force: false
+        }).then(function() {
+            return cockDB.Workout.getAll();
+        }).then(function(workouts) {
+            // Unwrap activities
+            for (let workout in workouts) {
+                // @ts-ignore
+                workout.activities = unwrapJSONToArray(workout.activities);
+            }
+            res.status(200).json(workouts);
+        }).catch(function(error) {
+            res.status(500).json({ message: error });
+        });
+    }
 }
 
 /*
@@ -96,13 +70,45 @@ function getWorkouts (req, res) {
     ReqBody: Workout {
         workout
     }
-    Query Params: id TODO
+    Query Params: id
 
     Response: 200 OK
  */
 function updateWorkout (req, res) {
-    // TODO
-    res.status(200);
+    // Check for input validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    let workout_id = req.query.id;
+    if (workout_id == null) {
+        res.status(400).json({ message: "Missing required param: workout_id" })
+    }
+
+    // Update row with this ID
+    let user_id = req.body.user_id;
+    let start_time = req.body.start_time;
+    let end_time = req.body.end_time;
+    let name = req.body.name;
+    let activities = wrapArrayToJSON(req.body.activities);
+
+    cockDB.Workout.update({
+            id: workout_id,
+            user_id: user_id,
+            start_time: start_time,
+            end_time: end_time,
+            name: name,
+            activities: activities
+        }, {
+        where: {
+            id: workout_id
+        }
+    }).then(function(updatedRows) {
+        res.status(200).json();
+    }).catch(function(error) {
+        res.status(500).json( {message: error} );
+    });
 }
 
 /*
@@ -114,8 +120,38 @@ function updateWorkout (req, res) {
     Response: 200 OK
  */
 function addWorkout (req, res) {
-    // TODO
-    res.status(200);
+    // Check for input validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Add workout to profile
+    // TODO make sure user is adding workout to their own profile
+    // TODO lots of other stuff
+    let workoutID = generateWorkoutID();
+    const user_id = req.body.user_id;
+    const start_time = req.body.start_time;
+    const end_time = req.body.end_time;
+    const name = req.body.name;
+    const activities = wrapArrayToJSON(req.body.activities);
+
+    cockDB.Workout.sync({
+        force: false
+    }).then(function() {
+        return cockDB.Workout.create({
+            id: workoutID,
+            user_id: user_id,
+            start_time: start_time,
+            end_time: end_time,
+            name: name,
+            activities: activities
+        });
+    }).then(function() {
+        res.status(200);
+    }).catch(function(error) {
+        res.status(500).json({ message: error });
+    });
 }
 
 /*

@@ -5,6 +5,26 @@ const keyLen = 64;
 const iterations = 100;
 const digest = "sha256";
 
+// Takes data arranged in JSON object and unravels it into array
+export function unwrapJSONToArray(json) {
+    let unwrapped = [];
+    Object.keys(json).forEach(function(key) {
+        unwrapped.push[json[key]];
+    });
+    return unwrapped;
+}
+
+// Takes data arranged in array and organizes it into JSON object
+export function wrapArrayToJSON(data) {
+    let dataJSON = {};
+    let counter = 1;
+    for (const i of data) {
+        data[counter] = i;
+        counter = counter + 1;
+    }
+    return dataJSON;
+}
+
 export function generateProfileID() {
     return "profile_" + uuidv4();
 }

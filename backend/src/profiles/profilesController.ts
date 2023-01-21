@@ -1,9 +1,10 @@
 const cockDB = require("../cockDB");
+import { validationResult } from "express-validator";
 
 /*
     GET /profiles
     ReqBody: None
-    Query Params: profile_id (optional)
+    Query Params: id (optional)
     TODO: add other query methods
 
     Response: UserProfile
@@ -14,8 +15,8 @@ const cockDB = require("../cockDB");
     }
  */
 function getProfiles (req, res) {
-    // Check for profile_id query param
-    let profile_id = req.query.profile_id;
+    // Check for id query param
+    let profile_id = req.query.id;
     if (profile_id != null) {
         // Find and return this specific profile
         cockDB.Profile.sync({
@@ -53,7 +54,7 @@ function getProfiles (req, res) {
         full_name: full name of user
         picture_link: link to user picture
     }
-    Query Params: profile_id
+    Query Params: id
 
     Response: UserProfile
     {
@@ -63,7 +64,13 @@ function getProfiles (req, res) {
     }
  */
 function updateProfile (req, res) {
-    let profile_id = req.query.profile_id;
+    // Check for input validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    let profile_id = req.query.id;
     if (profile_id == null) {
         res.status(400).json({ message: "Missing required param: profile_id" })
     }
