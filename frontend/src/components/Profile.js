@@ -26,13 +26,13 @@ const reducer = (state, action) => {
 }
 
 export const Home = () => {
-  const { state: authState } = React.useContext(GlobalContext)
+  const { globalState, globalDispatch } = React.useContext(GlobalContext)
   const [profileState, profileDispatch] = React.useReducer(reducer, initialProfileState)
 
   React.useEffect(() => {
-    fetch('http://127.0.0.1:3001/api/profiles?id=' + authState.user.profile_id, {
+    fetch('http://127.0.0.1:3001/api/profiles?id=' + globalState.user.profile_id, {
       headers: {
-        Authorization: `${authState.token}`
+        Authorization: `${globalState.token}`
       }
     })
       .then(res => {
@@ -48,7 +48,7 @@ export const Home = () => {
           payload: result
         })
       })
-  }, [authState.token])
+  }, [globalState.token])
 
   return (
     <React.Fragment>
