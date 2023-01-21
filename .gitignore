@@ -33,6 +33,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+frontend/lyftr/node_modules/
 
 # TypeScript cache
 *.tsbuildinfo
