@@ -13,6 +13,18 @@ export function generateUserID () {
     return "user_" + uuidv4();
 }
 
+export function generateWorkoutID() {
+    return "workout_" + uuidv4();
+}
+
+export function generateCommentID() {
+    return "comment_" + uuidv4();
+}
+
+export function generatePictureID() {
+    return "picture_" + uuidv4();
+}
+
 export function generateAccessToken (email) {
     return (jwt.sign(email, process.env.JWT_SECRET, {}));
 }

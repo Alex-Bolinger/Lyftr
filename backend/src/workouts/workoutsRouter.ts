@@ -2,7 +2,7 @@ const workoutsRouter = require("express").Router();
 const workoutsController = require("./workoutsController");
 
 // workouts
-workoutsRouter.get("/workouts", workoutsController.getWorkout); // query for group of workouts or get one by ID
+workoutsRouter.get("/workouts", workoutsController.getWorkouts); // query for group of workouts or get one by ID
 workoutsRouter.put("/workouts", workoutsController.updateWorkout); // update info for a particular workout by ID
 workoutsRouter.post("/workouts", workoutsController.addWorkout); // add a new workout
 
