@@ -42,7 +42,7 @@ function signup (req, res) {
 
         // User with this email does not exist - create one!
         const profileID = generateProfileID();
-        const userName = req.body.user_credentials.user_name;
+        const userName = req.body.user_name;
         // Start with profile
         cockDB.Profile.sync({
             force: false

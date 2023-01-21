@@ -1,12 +1,11 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "Workout App",
+        "title": "Lyftr",
         "version": "1.0.0",
-        "description": "API for workout application",
+        "description": "API for lyftr workout application",
         "contact": {
-            "name": "Aiden Gonzalez",
-            "url": "https://aidengonzalez.dev/",
+            "name": "Aiden Gonzalez and Alex Bolinger",
             "email": "aidenlgonzalez2@gmail.com"
         },
         "license": {
@@ -307,7 +306,10 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Picture"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Picture"
+                                    }
                                 }
                             }
                         },
@@ -617,9 +619,8 @@
                 "required": [
                     "user_name",
                     "email",
-                    "created",
-                    "hashed_password",
-                    "profile",
+                    "hashed_pass",
+                    "profile_id",
                     "id"
                 ],
                 "type": "object",
@@ -628,18 +629,6 @@
                         "description": "Email address of user",
                         "type": "string"
                     },
-                    "created": {
-                        "description": "Timestamp of when user was created",
-                        "type": "number"
-                    },
-                    "hashed_password": {
-                        "$ref": "#/components/schemas/HashedPassword",
-                        "description": "Hash of user password for authentication"
-                    },
-                    "profile": {
-                        "$ref": "#/components/schemas/UserProfile",
-                        "description": "User profile"
-                    },
                     "id": {
                         "description": "Unique user id (not technically necessary but helpful)",
                         "type": "string"
@@ -647,21 +636,25 @@
                     "user_name": {
                         "description": "Full name of user",
                         "type": "string"
+                    },
+                    "profile_id": {
+                        "description": "User profile",
+                        "type": "string"
+                    },
+                    "hashed_pass": {
+                        "$ref": "#/components/schemas/HashedPassword",
+                        "description": "Hash of user password for authentication"
                     }
                 },
                 "example": {
-                    "username": "some text",
                     "email": "some text",
-                    "created": 42.19,
-                    "hashed_password": {
+                    "id": "user ID",
+                    "user_name": "some text",
+                    "profile_id": "some text",
+                    "hashed_pass": {
                         "hash_pass": "some text",
                         "hash_salt": "some text"
-                    },
-                    "profile": {
-                        "full_name": "some text",
-                        "picture_link": "some text"
-                    },
-                    "id": "some text"
+                    }
                 }
             },
             "UserProfile": {
@@ -689,7 +682,7 @@
                 "example": {
                     "full_name": "some text",
                     "picture_link": "some text",
-                    "id": "some text"
+                    "id": "profile ID"
                 }
             },
             "Picture": {
@@ -715,7 +708,7 @@
                     }
                 },
                 "example": {
-                    "id": "some text",
+                    "id": "picture ID",
                     "picture_link": "some text",
                     "workout_id": "some text"
                 }
@@ -877,7 +870,7 @@
                     }
                 },
                 "example": {
-                    "id": "some text",
+                    "id": "comment ID",
                     "user_id": "some text",
                     "contents": "some text",
                     "workout_id": "some text"
@@ -924,7 +917,7 @@
                     }
                 },
                 "example": {
-                    "id": "some text",
+                    "id": "workout ID",
                     "user_id": "some text",
                     "start_time": "some text",
                     "end_time": "some text",
@@ -1003,26 +996,25 @@
                         "description": "Repetitions per set",
                         "type": "number"
                     }
+                },
+                "example": {
+                    "exercise": {
+                        "name": "some text",
+                        "muscle_group": "Back",
+                        "muscles": [
+                            "some text",
+                            "some text"
+                        ]
+                    },
+                    "sets": 18.31,
+                    "reps": 85.2
                 }
             }
         },
         "securitySchemes": {
-            "Password_Oauth2": {
-                "flows": {
-                    "password": {
-                        "tokenUrl": "/oauth",
-                        "refreshUrl": "/refresh",
-                        "scopes": {
-                            "Standard Access Scope": "For standard user access"
-                        }
-                    }
-                },
-                "type": "oauth2",
-                "description": "Oauth2 \"Resource Owner Password Credentials\" scheme with access and refresh tokens"
-            },
             "Access_Token": {
                 "type": "apiKey",
-                "description": "After using Oauth2 to retrieve access token, can use access token to authenticate and authorize for protected endpoints (Authorization = Bearer <token>)",
+                "description": "After logging in / registering to retrieve access token, can use access token to authenticate and authorize for protected endpoints (Authorization = <token>)",
                 "name": "Authorization",
                 "in": "header"
             }

@@ -5,7 +5,7 @@ const sequelize = new Sequelize(process.env.CRDB_URL, {
 });
 
 // Tables
-const Profile = sequelize.define("profile", {
+const Profile = sequelize.define("profiles", {
     id: {
         type: Sequelize.TEXT,
         primaryKey: true
@@ -18,7 +18,7 @@ const Profile = sequelize.define("profile", {
     }
 });
 
-const User = sequelize.define("user", {
+const User = sequelize.define("users", {
     id: {
         type: Sequelize.TEXT,
         primaryKey: true
@@ -34,13 +34,10 @@ const User = sequelize.define("user", {
     },
     hashed_pass: {
         type: Sequelize.JSON
-    },
-    created: {
-        type: Sequelize.DATE // TIMESTAMP WITH TIME ZONE
     }
 });
 
-const Exercise = sequelize.define("exercise", {
+const Exercise = sequelize.define("exercises", {
     name: {
         type: Sequelize.TEXT,
         primaryKey: true
@@ -53,7 +50,7 @@ const Exercise = sequelize.define("exercise", {
     }
 });
 
-const Workout = sequelize.define("workout", {
+const Workout = sequelize.define("workouts", {
     id: {
         type: Sequelize.TEXT,
         primaryKey: true
@@ -75,7 +72,7 @@ const Workout = sequelize.define("workout", {
     }
 });
 
-const Workout_Picture = sequelize.define("workout_picture", {
+const Workout_Picture = sequelize.define("workout_pictures", {
     id: {
         type: Sequelize.TEXT,
         primaryKey: true
@@ -88,7 +85,7 @@ const Workout_Picture = sequelize.define("workout_picture", {
     }
 });
 
-const Workout_Comment = sequelize.define("workout_comment", {
+const Workout_Comment = sequelize.define("workout_comments", {
     id: {
         type: Sequelize.TEXT,
         primaryKey: true

@@ -13,14 +13,14 @@ server.use(BodyParser.json());
 server.use(BodyParser.urlencoded({ extended: true }));
 
 // Spec validator middleware (using to validate requests)
-const OpenApiValidator = require("express-openapi-validator");
-server.use(
-    OpenApiValidator.middleware({
-        apiSpec: "./lyftr.json",
-        validateRequests: true, // true by default
-        validateResponses: false // false by default
-    })
-);
+// const OpenApiValidator = require("express-openapi-validator");
+// server.use(
+//     OpenApiValidator.middleware({
+//         apiSpec: "./lyftr.json",
+//         validateRequests: true, // true by default
+//         validateResponses: false // false by default
+//     })
+// );
 
 // Error handling middleware
 server.use((err, req, res, next) => {

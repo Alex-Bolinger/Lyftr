@@ -15,8 +15,7 @@ CREATE TABLE "user" (
   "email" text,
   "user_name" text,
   "profile_id" text,
-  "hashed_pass" json,
-  "created" timestamp
+  "hashed_pass" json
 );
 
 CREATE TABLE "profile" (
