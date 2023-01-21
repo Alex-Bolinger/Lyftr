@@ -12,7 +12,7 @@ const Home = () => {
         alignItems: 'Right',
         height: '80vh'
       }}
-    >
+    >````````
         <Paper style={{ margin: "20px" }} elevation={24}>
             <Grid container spacing={1}>
                 <h2 style={{

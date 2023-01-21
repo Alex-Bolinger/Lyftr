@@ -41,8 +41,12 @@ export function authenticateToken (req, res, next) {
 }
 
 export function hashPass (pass) {
+    const salt = nodeCrypto.randomBytes(keyLen).toString("base64");
+    return hashPassWithSalt(pass, salt);
+}
+
+export function hashPassWithSalt (pass, salt) {
     return new Promise((resolve, reject) => {
-        const salt = nodeCrypto.randomBytes(keyLen).toString("base64");
         nodeCrypto.pbkdf2(pass, salt, iterations, keyLen, digest, (err, key) => {
             if (err) {
                 reject(err);
@@ -53,7 +57,7 @@ export function hashPass (pass) {
                 hash_pass: key.toString("base64")
             });
         });
-    });
+    })
 }
 
 export function isValidPass (actualHash, givenPassword) {
