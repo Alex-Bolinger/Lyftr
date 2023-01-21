@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import Navbar from "./components/Navbar";
 
 
   
-const SignUp = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+function SignUp() {
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
 
   const handleSubmit = (event) => {
@@ -15,6 +16,9 @@ const SignUp = () => {
     if (pass.value === confirm.value) {
       //send info to backend
       setIsSubmitted(true);
+      console.log(name);
+      console.log(email);
+
     } else {
       window.alert("Password Mismatch!");
     }
@@ -59,10 +63,11 @@ const SignUp = () => {
         fontSize: '14px'
       }}
     >
+      <Navbar/>
     <div className="app">
       <div className="login-form">
         <div className="title">Sign Up</div>
-        {isSubmitted ? <div>User is successfully signed up</div> : renderForm}
+        {isSubmitted ? window.location.replace('Home') : renderForm}
       </div>
     </div>
     </div>

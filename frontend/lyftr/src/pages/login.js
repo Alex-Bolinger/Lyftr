@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from './components/Navbar'
 
 
   
@@ -13,6 +14,9 @@ const Login = () => {
 
     var {email, pass} = document.forms[0];
     //verify info with backend
+    console.log(email);
+    console.log(pass);
+    setIsSubmitted(true);
   };
 
 
@@ -46,6 +50,7 @@ const Login = () => {
         fontSize: '14px'
       }}
     >
+      <Navbar/>
     <div className="app">
       <div className="login-form">
         <div className="title">Log In</div>

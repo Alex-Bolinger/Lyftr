@@ -1,18 +1,24 @@
 import React from 'react';
+import Navbar from './components/Navbar'
   
-const Home = () => {
+const Index = () => {
   return (
     <div
       style={{
-        display: 'flex',
+        display: 'inline',
         justifyContent: 'left',
-        alignItems: 'Right',
+        alignItems: 'left',
         height: '80vh'
       }}
     >
-      <h1>Welcome to Lyftr</h1>
+      <div>
+        <Navbar/>
+      </div>
+      <div>
+        <h1>Welcome to Lyftr</h1>
+      </div>
     </div>
   );
 };
   
-export default Home;
+export default Index;
