@@ -51,7 +51,7 @@ function getWorkouts (req, res) {
         cockDB.Workout.sync({
             force: false
         }).then(function() {
-            return cockDB.Workout.getAll();
+            return cockDB.Workout.findAll();
         }).then(function(workouts) {
             // Unwrap activities
             for (let workout in workouts) {
@@ -147,8 +147,8 @@ function addWorkout (req, res) {
             name: name,
             activities: activities
         });
-    }).then(function() {
-        res.status(200);
+    }).then(function(workout) {
+        res.status(200).json(workout);
     }).catch(function(error) {
         res.status(500).json({ message: error });
     });

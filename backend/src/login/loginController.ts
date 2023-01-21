@@ -11,7 +11,7 @@ const cockDB = require("../cockDB");
 
     Response: LoginResponse
     {
-        access_token: access token
+        token: access token
     }
  */
 function login (req, res) {
@@ -45,7 +45,8 @@ function login (req, res) {
         // Password is correct - grant new token
         const jwtToken = generateAccessToken({ email: userEmail });
         return res.status(200).json({
-            access_token: jwtToken
+            user: user,
+            token: jwtToken
         });
     }).catch(function(err) {
         res.status(500).json({ message: err });

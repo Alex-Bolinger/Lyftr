@@ -1,11 +1,13 @@
 const profilesRouter = require("express").Router();
 const profilesController = require("./profilesController");
+const { authenticateToken } = require("../helpers");
 import { body } from "express-validator";
 
 // profiles
-profilesRouter.get("/profiles", profilesController.getProfiles); // get by ID? email?
+profilesRouter.get("/profiles", authenticateToken, profilesController.getProfiles); // get by ID? email?
 profilesRouter.put(
     "/profiles",
+    authenticateToken,
     body("full_name").isLength({ min: 1, max: 255 }),
     profilesController.updateProfile); // update by ID?
 

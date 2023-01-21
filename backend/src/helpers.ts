@@ -19,7 +19,7 @@ export function wrapArrayToJSON(data) {
     let dataJSON = {};
     let counter = 1;
     for (const i of data) {
-        data[counter] = i;
+        dataJSON[counter] = i;
         counter = counter + 1;
     }
     return dataJSON;
@@ -57,7 +57,7 @@ export function authenticateToken (req, res, next) {
         if (err) return res.sendStatus(403);
         req.email = email;
         next();
-    })
+    });
 }
 
 export function hashPass (pass) {
