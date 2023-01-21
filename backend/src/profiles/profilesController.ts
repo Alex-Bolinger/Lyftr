@@ -12,7 +12,7 @@
         picture_link: link to user picture
     }
  */
-function getProfile (req, res, next) {
+function getProfile (req, res) {
     // TODO
     res.status(200).json({
         id: "profile_asdfsadfasdf",
@@ -37,7 +37,7 @@ function getProfile (req, res, next) {
         picture_link: link to user picture
     }
  */
-function updateProfile (req, res, next) {
+function updateProfile (req, res) {
     // TODO
     res.status(200).json({
         id: "profile_asdfsadfasdf",

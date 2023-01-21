@@ -119,7 +119,7 @@ function closeDB() {
 function query(queryString) {
     return new Promise((resolve, reject) => {
         try {
-            sequelize.query(queryString).then((results, metadata) => resolve(results));
+            sequelize.query(queryString).then((results) => resolve(results));
         } catch (err) {
             reject(err);
         }

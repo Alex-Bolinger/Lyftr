@@ -1,4 +1,4 @@
-import { hashPass, generateAccessToken } from "../helpers";
+import { generateAccessToken } from "../helpers";
 
 /*
     POST /login
@@ -13,10 +13,10 @@ import { hashPass, generateAccessToken } from "../helpers";
         access_token: access token
     }
  */
-function login (req, res, next) {
+function login (req, res) {
     // Validate login information
     const email = req.body.email;
-    const password = req.body.password;
+    // const password = req.body.password;
 
     // TODO Get hashed user password from database and verify match
     // TODO for now, assume valid
