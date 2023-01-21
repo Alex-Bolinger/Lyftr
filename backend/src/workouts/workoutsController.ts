@@ -1,9 +1,9 @@
-import {generateCommentID, generatePictureID, generateUserID, generateWorkoutID} from "../helpers";
+import { generateCommentID, generatePictureID, generateUserID, generateWorkoutID } from "../helpers";
 
 /*
     GET /workouts
     ReqBody: None
-    Query Params: end_time, id, start_time, user_id TODO
+    Query Params: id (optional) TODO add more as planned
 
     Response: Workout []
     [
@@ -18,7 +18,7 @@ import {generateCommentID, generatePictureID, generateUserID, generateWorkoutID}
  */
 
 function getWorkouts (req, res) {
-    // TODO
+    // Check for optional query parameter
     res.status(200).json([
         {
             id: generateWorkoutID(),
