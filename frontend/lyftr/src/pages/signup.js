@@ -16,26 +16,38 @@ function SignUp() {
     event.preventDefault();
 
     var { name, email, pass, confirm } = document.forms[0];
+    console.log(name);
+    console.log(email);
+    console.log(pass);
     if (pass.value === confirm.value) {
       //send info to backend
       console.log(name);
       console.log(email);
 
-      /*fetch('/signup', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userCredentials: {
-            email: email,
-            password: pass
-          },
-          user_name: name
-        })
-      }).then(res => {
-        console.log(res);
-      })*/
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+          "user_credentials": {
+              "email": email.value,
+              "password": pass.value
+       },
+    "user_name": name.value
+});
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://127.0.0.1:3001/api/signup", requestOptions)
+  .then(response => response.text())
+  .then(result => {
+    let res = JSON.parse(result);
+    const [accessToken, setAccessToken] = useState(res);
+  })
+  .catch(error => console.log('error', error));
       setIsSubmitted(true);
 
     } else {
