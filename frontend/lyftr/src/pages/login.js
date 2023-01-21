@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Navbar from './components/Navbar'
+import { useNavigate } from "react-router-dom";
+
 
 
   
@@ -7,6 +9,7 @@ const Login = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
 
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -54,7 +57,7 @@ const Login = () => {
     <div className="app">
       <div className="login-form">
         <div className="title">Log In</div>
-        {isSubmitted ? <div>redirect to home page</div> : renderForm}
+        {isSubmitted ? navigate('/', {state: {loggedIn: true}}) : renderForm}
       </div>
     </div>
     </div>

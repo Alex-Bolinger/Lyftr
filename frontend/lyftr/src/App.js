@@ -8,11 +8,11 @@ import SignUp from './pages/signup';
 import Home from "./pages/home";
 
 
-function App() {
+function App({loggedIn}) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Index/>}></Route>
+        <Route path="/" element={<Index loggedIn={loggedIn}/>}></Route>
         <Route path="Profile" element={<Profile/>}></Route>
         <Route path="Login" element={<Login/>}></Route>
         <Route path="SignUp" element={<SignUp/>}></Route>
