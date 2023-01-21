@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "./components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 
   
 function SignUp() {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const navigate = useNavigate();
 
 
   const handleSubmit = (event) => {
@@ -15,9 +18,25 @@ function SignUp() {
     var { name, email, pass, confirm } = document.forms[0];
     if (pass.value === confirm.value) {
       //send info to backend
-      setIsSubmitted(true);
       console.log(name);
       console.log(email);
+
+      /*fetch('/signup', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userCredentials: {
+            email: email,
+            password: pass
+          },
+          user_name: name
+        })
+      }).then(res => {
+        console.log(res);
+      })*/
+      setIsSubmitted(true);
 
     } else {
       window.alert("Password Mismatch!");
@@ -67,7 +86,7 @@ function SignUp() {
     <div className="app">
       <div className="login-form">
         <div className="title">Sign Up</div>
-        {isSubmitted ? window.location.replace('Home') : renderForm}
+        {isSubmitted ? navigate('/Home', {state: {loggedIn: true}}) : renderForm}
       </div>
     </div>
     </div>

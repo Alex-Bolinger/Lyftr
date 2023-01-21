@@ -14,8 +14,8 @@ const PostNavbar = () => {
             <Nav>
                 <Bars />
                 <NavMenu>
-                    <NavLink to="Home">Home</NavLink>
-                    <NavLink to="Profile">Profile</NavLink>
+                    <NavLink to="/Home">Home</NavLink>
+                    <NavLink to="/Profile">Profile</NavLink>
                 </NavMenu>
             </Nav>
         </>
