@@ -27,39 +27,41 @@ export const Login = () => {
       isSubmitting: true,
       errorMessage: null
     });
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    if (data.password === data.confirm) {
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-    let raw = JSON.stringify({
-          "email": data.email,
-          "password": data.password
-    });
-
-    let requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-    fetch("http://127.0.0.1:3001/api/login", requestOptions)
-      .then(res => {
-          if (res.ok) {
-              return res.json();
-          } else {
-              throw res;
-          }
-      }).then(resJson => {
-          dispatch({
-              type: "LOGIN",
-              payload: resJson
-          })
-    }).catch(error => {
-      setData({
-          ...data,
-          isSubmitting: false,
-          errorMessage: error.message || error.statusText
+      let raw = JSON.stringify({
+            "email": data.email,
+            "password": data.password
       });
-    });
+
+      let requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+      };
+      fetch("http://127.0.0.1:3001/api/login", requestOptions)
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw res;
+            }
+        }).then(resJson => {
+            dispatch({
+                type: "LOGIN",
+                payload: resJson
+            })
+      }).catch(error => {
+        setData({
+            ...data,
+            isSubmitting: false,
+            errorMessage: error.message || error.statusText
+        });
+      });
+    }
   };
 
   return (
@@ -67,7 +69,18 @@ export const Login = () => {
       <div className="card">
         <div className="container">
           <form onSubmit={handleFormSubmit}>
-            <h1>Login</h1>
+            <h1>Sign Up</h1>
+
+            <label htmlFor="Name">
+              Name
+              <input
+                type="text"
+                value={data.name}
+                onChange={handleInputChange}
+                name="name"
+                id="name"/>
+            </label>
+
             <label htmlFor="email">
               Email Address
               <input
@@ -90,6 +103,18 @@ export const Login = () => {
               />
             </label>
 
+            <label htmlFor="confirm">
+
+              Confirm Password
+              <input
+                type="password"
+                value={data.confirm}
+                onChange={handleInputChange}
+                name="confirm"
+                id="confirm"
+              />
+            </label>
+
             {data.errorMessage && (
               <span className="form-error">{data.errorMessage}</span>
             )}
@@ -98,7 +123,7 @@ export const Login = () => {
               {data.isSubmitting ? (
                 <img className="spinner" src={logo} alt="loading icon" />
               ) : (
-                "Login"
+                "Sign Up"
               )}
             </button>
           </form>
