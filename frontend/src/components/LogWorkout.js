@@ -10,8 +10,8 @@ const LogWorkout = () => {
   const [endTime, setEndTime] = useState('')
   const [activities, setActivities] = useState([{
     exerciseName: '',
-    sets: 0,
-    reps: 0
+    sets: null,
+    reps: null
   }])
 
   // const isButtonDisabled = name === '' || startTime === '' || endTime === '' || activities === [] || workoutState.isWorkoutSubmitting
@@ -70,15 +70,15 @@ const LogWorkout = () => {
   const addFields = () => {
     const object = {
       exerciseName: '',
-      sets: 0,
-      reps: 0
+      sets: null,
+      reps: null
     }
 
     setActivities([...activities, object])
   }
 
   return (
-        <Paper elevation={12} style={{ borderRadius: '10px', width: '50%', margin: 'auto' }}>
+        <Paper elevation={12} style={{ borderRadius: '10px', minWidth: '750px', width: '60%', margin: 'auto', marginTop: '100px' }}>
             <Grid direction="row" container spacing={2}>
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" align="center" spacing={2}>
@@ -108,11 +108,11 @@ const LogWorkout = () => {
                         </Grid>
                         {activities.map((field, index) => {
                           return (
-                                <Grid key={index} justifyContent="center" padding="20px" container>
+                                <Grid key={index} justifyContent="center" padding="20px" container spacing={2}>
                                     <Grid item xs={3}>
                                         <Input
                                             name="exerciseName"
-                                            placeholder="Exercise Name"
+                                            placeholder="Exercise"
                                             onChange={event => handleFormChange(event, index)}
                                             value={field.exerciseName}
                                         />
@@ -120,7 +120,7 @@ const LogWorkout = () => {
                                     <Grid item xs={3}>
                                         <Input
                                             name="sets"
-                                            placeholder="Number of sets"
+                                            placeholder="Sets"
                                             onChange={event => handleFormChange(event, index)}
                                             value={field.sets}
                                         />
@@ -128,7 +128,7 @@ const LogWorkout = () => {
                                     <Grid item xs={3}>
                                         <Input
                                             name="reps"
-                                            placeholder="Number of reps per set"
+                                            placeholder="Reps per set"
                                             onChange={event => handleFormChange(event, index)}
                                             value={field.reps}
                                         />

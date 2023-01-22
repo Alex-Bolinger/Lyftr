@@ -179,10 +179,7 @@ label{
 
 /******  HOME PAGE  ******/
 .home, .toggle-button{
-  margin-top: 100px;
-  margin-left: 2%;
-  margin-right: 2%;
-  display: flex;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
 }

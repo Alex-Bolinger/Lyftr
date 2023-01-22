@@ -147,7 +147,7 @@ function App () {
         <Grid item xs={12}>
           <Header />
         </Grid>
-        <Grid item xs={12} style={{ paddingTop: '100px' }}>
+        <Grid item xs={12} style={{ }}>
           <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <LogWorkout/> : <Home />}</div>
         </Grid>
       </Grid>

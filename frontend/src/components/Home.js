@@ -1,5 +1,6 @@
 import React from 'react'
 import { GlobalContext } from '../App'
+import Dashboard from './dashboard/Dashboard'
 import Card from './Workout'
 
 export const Home = () => {
@@ -52,12 +53,13 @@ export const Home = () => {
               <h1>No workouts logged!</h1>
               )
             : (
-        <>
-          {globalState.workouts.length > 0 &&
-              globalState.workouts.map(workout => (
-              <Card key={workout.id.toString()} workout={workout} />
-              ))}
-        </>
+        <div>
+          {/* {globalState.workouts.length > 0 && */}
+          {/*    globalState.workouts.map(workout => ( */}
+          {/*    <Card key={workout.id.toString()} workout={workout} /> */}
+          {/*    ))} */}
+          <Dashboard></Dashboard>
+        </div>
               )}
     </div>
     </React.Fragment>

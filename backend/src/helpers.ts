@@ -8,9 +8,9 @@ const digest = "sha256";
 // Takes data arranged in JSON object and unravels it into array
 export function unwrapJSONToArray(json) {
     let unwrapped = [];
-    Object.keys(json).forEach(function(key) {
-        unwrapped.push[json[key]];
-    });
+    for (let [key, value] of Object.entries(json)) {
+        unwrapped.push(value);
+    }
     return unwrapped;
 }
 
