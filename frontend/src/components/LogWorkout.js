@@ -115,7 +115,7 @@ const LogWorkout = () => {
                                 <Grid key={index} justifyContent="center" padding="20px" container spacing={2}>
                                     <Grid item xs={3}>
                                         <Input
-                                            name="exerciseName"
+                                            name="exercise.name"
                                             placeholder="Exercise"
                                             onChange={event => handleFormChange(event, index)}
                                             value={field.exercise.name}

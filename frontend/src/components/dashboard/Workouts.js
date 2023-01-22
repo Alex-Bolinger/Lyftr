@@ -41,6 +41,20 @@ export default function Workouts () {
     tableKey = tableKey + 1
   }
 
+  // Now sort table vals
+  function tableSort (a, b) {
+    if (a.date_time < b.date_time) {
+      return 1
+    } else if (a.date_time > b.date_time) {
+      return -1
+    }
+    return 0
+  }
+
+  tableVals.sort(tableSort)
+
+  console.log(tableVals)
+
   return (
     <React.Fragment>
       <Title>Recent Workouts</Title>
