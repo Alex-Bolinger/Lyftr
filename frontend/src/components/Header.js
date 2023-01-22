@@ -6,7 +6,9 @@ export const Header = () => {
   return (
     <nav id="navigation" style={{ justifyContent: 'space-between' }}>
         <div style={{ paddingLeft: '20px' }}>
-            <a href="#" className="left brand-logo" style={{ display: 'inline-flex', height: '100%' }}>
+            <a href="#" onClick={() => {
+
+            }} className="left brand-logo" style={{ display: 'inline-flex', height: '100%' }}>
                 <h1>Lyftr</h1>
             </a>
         </div>

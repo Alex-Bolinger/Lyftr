@@ -1,6 +1,6 @@
 import React from 'react'
 import { GlobalContext } from '../App'
-import Card from './Card'
+import Card from './Workout'
 
 export const Home = () => {
   const { globalState, globalDispatch } = React.useContext(GlobalContext)

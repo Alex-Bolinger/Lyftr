@@ -1,14 +1,13 @@
 import { Container } from '@mui/material'
 import React from 'react'
 import { GlobalContext } from '../App'
-import Card from './Card'
+import Card from './Workout'
 
 const initialProfileState = {
   name: '',
   picture_link: '',
   edit_mode: false
 }
-
 const ProfileContext = React.createContext(initialProfileState)
 
 const reducer = (state, action) => {
@@ -18,8 +17,9 @@ const reducer = (state, action) => {
       document.getElementById('profile_pic').src = action.payload.picture_link
       document.getElementById('full_name').innerHTML = action.payload.full_name
       return {
-        ...state
-
+        ...state,
+        name: action.payload.full_name,
+        picture_link: action.payload.picture_link
       }
     case 'PROFILEEDIT':
       return {
@@ -34,6 +34,13 @@ const reducer = (state, action) => {
 export const Home = () => {
   const { globalState, globalDispatch } = React.useContext(GlobalContext)
   const [profileState, profileDispatch] = React.useReducer(reducer, initialProfileState)
+
+  const handleInputChange = event => {
+    profileDispatch({
+      ...profileState,
+      [event.target.name]: event.target.value
+    })
+  }
 
   React.useEffect(() => {
     fetch('http://127.0.0.1:3001/api/profiles?id=' + globalState.user.profile_id, {
@@ -64,9 +71,9 @@ export const Home = () => {
         <h1 className="fullName" id="full_name"></h1>
         {!profileState.edit_mode && (
         <button onClick={() =>
-            profileDispatch({
-                type: "PROFILEEDIT"
-        })}>
+          profileDispatch({
+            type: 'PROFILEEDIT'
+          })}>
             <h1>Edit</h1>
         </button>)}
         {profileState.edit_mode && (
@@ -74,7 +81,7 @@ export const Home = () => {
             Name
             <input
               type="text"
-              value={data.name}
+              value={profileState.name}
               onChange={handleInputChange}
               name="name"
               id="name"
@@ -86,7 +93,7 @@ export const Home = () => {
             picture_link
             <input
               type="text"
-              value={data.picture_link}
+              value={profileState.picture_link}
               onChange={handleInputChange}
               name="picture_link"
               id="picture_link"
