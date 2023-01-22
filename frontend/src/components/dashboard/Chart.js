@@ -13,10 +13,8 @@ export default function Chart () {
   let workoutCount = 1
   for (const workout in globalState.workouts) {
     let cumulativeActivity = 0
-    console.log(workout)
-    for (const activity in globalState.workouts[workout]) {
-      console.log(activity)
-      cumulativeActivity = cumulativeActivity + (globalState.workouts[workout][activity].sets * globalState.workouts[workout][activity].reps)
+    for (const activity in globalState.workouts[workout].activities) {
+      cumulativeActivity = cumulativeActivity + (globalState.workouts[workout].activities[activity].sets * globalState.workouts[workout].activities[activity].reps)
     }
     data.push({
       workoutCount,
@@ -40,7 +38,7 @@ export default function Chart () {
           }}
         >
           <XAxis
-            dataKey="time"
+            dataKey="workoutCount"
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
           />
@@ -57,13 +55,13 @@ export default function Chart () {
                 ...theme.typography.body1
               }}
             >
-              Sales ($)
+              Sets x Reps
             </Label>
           </YAxis>
           <Line
             isAnimationActive={false}
             type="monotone"
-            dataKey="amount"
+            dataKey="cumulativeActivity"
             stroke={theme.palette.primary.main}
             dot={false}
           />

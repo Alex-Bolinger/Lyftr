@@ -9,7 +9,9 @@ const LogWorkout = () => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
   const [activities, setActivities] = useState([{
-    exerciseName: '',
+    exercise: {
+      name: null
+    },
     sets: null,
     reps: null
   }])
@@ -69,7 +71,9 @@ const LogWorkout = () => {
 
   const addFields = () => {
     const object = {
-      exerciseName: '',
+      exercise: {
+        name: null
+      },
       sets: null,
       reps: null
     }
@@ -114,7 +118,7 @@ const LogWorkout = () => {
                                             name="exerciseName"
                                             placeholder="Exercise"
                                             onChange={event => handleFormChange(event, index)}
-                                            value={field.exerciseName}
+                                            value={field.exercise.name}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>

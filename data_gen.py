@@ -6,7 +6,7 @@ import psycopg2
 from uuid import uuid4
 
 # Generates full body workouts and inserts into cockroachDB
-NUM_WORKOUTS = 1000
+NUM_WORKOUTS = 387
 
 EXERCISES = [
   {
@@ -110,7 +110,7 @@ MAX_REPS = 16
 USER_ID="user_" + str(uuid4())
 
 # Each workout has a name, start datetime, end datetime, and set of activities
-# Start from today and work backwards, sometimes skipping 1 or 2 days
+# Start from today and work backwards
 workouts = []
 current_date = datetime.now()
 for i in range(NUM_WORKOUTS):
@@ -121,7 +121,7 @@ for i in range(NUM_WORKOUTS):
   workout_time = random.sample(WORKOUT_TIMES, 1)[0]
   
   # Workout name
-  workout_name = workout_time["name"]
+  workout_name = workout_time["name"] + random.choice([" Lift", " Workout", " Exercises", " Calisthenics", " Warm-Up"])
 
   # Workout start and end datetime
   workout_start_time = datetime(
@@ -160,6 +160,9 @@ for i in range(NUM_WORKOUTS):
     "name": workout_name,
     "activities": workout_activities
   })
+
+  # Decrement date
+  current_date = current_date - timedelta(days=1)
 
 conn = psycopg2.connect("postgresql://localhost/lyftr?user=postgres&password=password")
 

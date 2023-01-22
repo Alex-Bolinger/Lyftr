@@ -19,21 +19,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { mainListItems, secondaryListItems } from './listItems'
 import Chart from './Chart'
-import Deposits from './Deposits'
-import Orders from './Orders'
-
-function Copyright (props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
-}
+import Stats from './Stats'
+import Workouts from './Workouts'
 
 const drawerWidth = 240
 
@@ -62,7 +49,7 @@ function DashboardContent () {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
+              {/* Activity Chart */}
               <Grid item xs={12} md={8} lg={9}>
                 <Paper
                   sx={{
@@ -75,7 +62,7 @@ function DashboardContent () {
                   <Chart />
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+              {/* Recent Stats */}
               <Grid item xs={12} md={4} lg={3}>
                 <Paper
                   sx={{
@@ -85,13 +72,13 @@ function DashboardContent () {
                     height: 240
                   }}
                 >
-                  <Deposits />
+                  <Stats />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* Recent Workouts */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Orders />
+                  <Workouts />
                 </Paper>
               </Grid>
             </Grid>
