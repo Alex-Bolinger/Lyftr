@@ -8,7 +8,11 @@ const LogWorkout = () => {
   const [name, setName] = useState('')
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
-  const [activities, setActivities] = useState([])
+  const [activities, setActivities] = useState([{
+    exerciseName: '',
+    sets: 0,
+    reps: 0
+  }])
 
   // const isButtonDisabled = name === '' || startTime === '' || endTime === '' || activities === [] || workoutState.isWorkoutSubmitting
 
@@ -19,10 +23,11 @@ const LogWorkout = () => {
     const workout = {
       user_id: globalState.user.id,
       name,
-      startTime,
-      endTime,
+      start_time: startTime,
+      end_time: endTime,
       activities
     }
+    console.log(workout)
     fetch('http://127.0.0.1:3001/api/workouts', {
       method: 'POST',
       headers: {
@@ -56,28 +61,25 @@ const LogWorkout = () => {
       })
   }
 
-  const [formFields, setFormFields] = useState([
-    { name: '', age: '' }
-  ])
-
   const handleFormChange = (event, index) => {
-    const data = [...formFields]
+    const data = [...activities]
     data[index][event.target.name] = event.target.value
-    setFormFields(data)
+    setActivities(data)
   }
 
   const addFields = () => {
     const object = {
-      name: '',
-      age: ''
+      exerciseName: '',
+      sets: 0,
+      reps: 0
     }
 
-    setFormFields([...formFields, object])
+    setActivities([...activities, object])
   }
 
   return (
         <Paper elevation={12} style={{ borderRadius: '10px', width: '50%', margin: 'auto' }}>
-            <Grid direction="row" xs={{ flexGrow: 1 }} container spacing={2}>
+            <Grid direction="row" container spacing={2}>
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" align="center" spacing={2}>
                         <Grid item xs={12}>
@@ -104,13 +106,13 @@ const LogWorkout = () => {
                                 onChange={e => setEndTime(e.target.value)}
                             />
                         </Grid>
-                        {formFields.map((field, index) => {
+                        {activities.map((field, index) => {
                           return (
-                                <Grid key={index} justifyContent="center" padding="20px" container xs={12}>
+                                <Grid key={index} justifyContent="center" padding="20px" container>
                                     <Grid item xs={3}>
                                         <Input
-                                            name="workoutName"
-                                            placeholder="Workout Name"
+                                            name="exerciseName"
+                                            placeholder="Exercise Name"
                                             onChange={event => handleFormChange(event, index)}
                                             value={field.exerciseName}
                                         />
