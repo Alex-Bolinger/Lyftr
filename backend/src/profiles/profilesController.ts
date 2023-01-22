@@ -54,7 +54,7 @@ function getProfiles (req, res) {
         full_name: full name of user
         picture_link: link to user picture
     }
-    Query Params: id
+    Query Params: profile id
 
     Response: UserProfile
     {
@@ -77,9 +77,8 @@ function updateProfile (req, res) {
 
     // Update row with this ID
     let full_name = req.body.full_name;
-    let picture_link = req.body.picture_link;
+    let picture_link = req.body.picture_link
     cockDB.Profile.update({
-        id: profile_id,
         full_name: full_name,
         picture_link: picture_link
     }, {
@@ -87,7 +86,7 @@ function updateProfile (req, res) {
             id: profile_id
         }
     }).then(function(updatedRows) {
-        res.status(200).json();
+        res.status(200).json(updatedRows);
     }).catch(function(error) {
         res.status(500).json( {message: error} );
     })

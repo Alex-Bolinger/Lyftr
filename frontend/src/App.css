@@ -354,11 +354,14 @@ label{
   background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 20%;
   align-items: left;
   height: 90%;
   padding-bottom: 5px;
   transition: 0.5s;
+}
+.profile_pic {
+  max-width: 20%;
 }
 
 

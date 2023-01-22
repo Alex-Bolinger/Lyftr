@@ -1,10 +1,12 @@
+import { Container } from '@mui/material'
 import React from 'react'
 import { GlobalContext } from '../App'
 import Card from './Card'
 
 const initialProfileState = {
   name: '',
-  picture_link: ''
+  picture_link: '',
+  edit_mode: false
 }
 
 const ProfileContext = React.createContext(initialProfileState)
@@ -19,7 +21,11 @@ const reducer = (state, action) => {
         ...state
 
       }
-
+    case 'PROFILEEDIT':
+      return {
+        ...state,
+        edit_mode: true
+      }
     default:
       return state
   }
@@ -54,8 +60,39 @@ export const Home = () => {
     <React.Fragment>
 
     <div className="profile">
-      <img src="" id="profile_pic"/>
-      <h1 className="fullName" id="full_name"></h1>
+        <img src="" id="profile_pic"/>
+        <h1 className="fullName" id="full_name"></h1>
+        {!profileState.edit_mode && (
+        <button onClick={() =>
+            profileDispatch({
+                type: "PROFILEEDIT"
+        })}>
+            <h1>Edit</h1>
+        </button>)}
+        {profileState.edit_mode && (
+            <label htmlFor="name">
+            Name
+            <input
+              type="text"
+              value={data.name}
+              onChange={handleInputChange}
+              name="name"
+              id="name"
+            />
+            </label>
+        )}
+        {profileState.edit_mode && (
+            <label htmlFor="picture_link">
+            picture_link
+            <input
+              type="text"
+              value={data.picture_link}
+              onChange={handleInputChange}
+              name="picture_link"
+              id="picture_link"
+            />
+            </label>
+        )}
     </div>
     </React.Fragment>
   )
