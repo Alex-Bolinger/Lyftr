@@ -191,7 +191,7 @@ label{
   width: 100%;
   position: fixed;
   z-index: 10;
-  display: flex;
+  display: inline-flex;
   flex-wrap: nowrap;
   justify-content: right;
   background-color: #F42B4B;
@@ -205,9 +205,7 @@ label{
 
 #navigation h1{
   color: white;
-  padding-right: 76%;
   flex-wrap: nowrap;
-  width: 100px;
 }
 
 #navigation button{

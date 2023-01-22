@@ -6,6 +6,7 @@ import Header from './components/Header'
 import SignUp from './components/SignUp'
 import Profile from './components/Profile'
 import LogWorkout from './components/LogWorkout'
+import { Grid } from '@mui/material'
 
 // Auth state context
 const globalInitialState = {
@@ -142,8 +143,14 @@ function App () {
         globalDispatch
       }}
     >
-        <Header />
-        <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <LogWorkout/> : <Home />}</div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Header />
+        </Grid>
+        <Grid item xs={12} style={{ paddingTop: '100px' }}>
+          <div className="App">{!globalState.isAuthenticated ? globalState.login ? <Login /> : <SignUp /> : globalState.profile ? <Profile /> : globalState.log ? <LogWorkout/> : <Home />}</div>
+        </Grid>
+      </Grid>
     </GlobalContext.Provider>
   )
 }
