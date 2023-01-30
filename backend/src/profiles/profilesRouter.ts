@@ -1,10 +1,10 @@
 const profilesRouter = require("express").Router();
 const profilesController = require("./profilesController");
-const { authenticateToken } = require("../helpers");
+const { authenticateToken, fetchUser } = require("../helpers");
 import { body } from "express-validator";
 
 // profiles
-profilesRouter.get("/profiles", authenticateToken, profilesController.getProfiles); // get by ID? email?
+profilesRouter.get("/profiles", authenticateToken, fetchUser, profilesController.getProfiles); // get by ID? email?
 profilesRouter.put(
     "/profiles",
     authenticateToken,

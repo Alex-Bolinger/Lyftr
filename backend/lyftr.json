@@ -43,13 +43,30 @@
             "get": {
                 "parameters": [
                     {
-                        "name": "username",
-                        "description": "Username of user to fetch profile for",
+                        "name": "profile_id",
+                        "description": "ID of profile to fetch",
                         "schema": {
                             "type": "string"
                         },
                         "in": "query",
-                        "required": true
+                        "required": false
+                    },
+                    {
+                        "name": "page_size",
+                        "description": "Optional pagination: Size of pages to fetch (number of comments per page)",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "page_offset",
+                        "description": "Optional pagination: Offset of page to fetch (default is 0)",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -61,16 +78,16 @@
                                 }
                             }
                         },
-                        "description": "Successfully fetched user profile"
+                        "description": "Successfully fetched user profile(s)"
                     },
                     "400": {
-                        "description": "Malformed request (missing username?)"
+                        "description": "Malformed request (missing something?)"
                     },
                     "403": {
                         "description": "Authorization/authentication failed (access token invalid, or maybe not allowed to view this profile?)"
                     },
                     "404": {
-                        "description": "User with provided username not found!"
+                        "description": "Profile with provided ID not found!"
                     }
                 },
                 "security": [
@@ -79,7 +96,7 @@
                         ]
                     }
                 ],
-                "summary": "Get a profile by username"
+                "summary": "Get a profile by username, or all profiles in a paginated list"
             },
             "put": {
                 "requestBody": {
@@ -92,17 +109,6 @@
                     },
                     "required": true
                 },
-                "parameters": [
-                    {
-                        "name": "id",
-                        "description": "ID of user whose profile to update",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "in": "query",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Successfully updated user profile!"
@@ -114,7 +120,7 @@
                         "description": "Authorization/authentication failed!"
                     },
                     "404": {
-                        "description": "Could not find user with ID"
+                        "description": "Could not find profile"
                     }
                 },
                 "security": [
@@ -123,7 +129,7 @@
                         ]
                     }
                 ],
-                "summary": "Update user profile by user ID"
+                "summary": "Update user profile (can only update your own profile)"
             }
         },
         "/api/workouts": {
@@ -145,7 +151,7 @@
                             "type": "string"
                         },
                         "in": "query",
-                        "required": true
+                        "required": false
                     },
                     {
                         "name": "end_time",
@@ -154,7 +160,7 @@
                             "type": "string"
                         },
                         "in": "query",
-                        "required": true
+                        "required": false
                     },
                     {
                         "name": "user_id",
@@ -163,7 +169,7 @@
                             "type": "string"
                         },
                         "in": "query",
-                        "required": true
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -225,7 +231,7 @@
                         "description": "Bad request"
                     },
                     "403": {
-                        "description": "Authentication failed"
+                        "description": "Authentication/authorization failed"
                     }
                 },
                 "security": [
@@ -234,7 +240,7 @@
                         ]
                     }
                 ],
-                "summary": "Update info for a particular workout"
+                "summary": "Update info for a particular workout (can only update your own workouts)"
             },
             "post": {
                 "requestBody": {
@@ -249,18 +255,6 @@
                 },
                 "responses": {
                     "201": {
-                        "headers": {
-                            "Location": {
-                                "schema": {
-                                    "type": "string"
-                                },
-                                "examples": {
-                                    "Location": {
-                                        "value": "http://workoutapp.com/api/workouts?id=XXXXX"
-                                    }
-                                }
-                            }
-                        },
                         "description": "Successfully added workout!"
                     },
                     "400": {
@@ -283,14 +277,6 @@
             "summary": "Add, retrieve, and delete workout pictures",
             "get": {
                 "parameters": [
-                    {
-                        "name": "offset",
-                        "description": "Offset of photo to fetch (first picture is 0)",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "in": "query"
-                    },
                     {
                         "name": "workout_id",
                         "description": "ID of workout to fetch pictures for",
@@ -438,7 +424,7 @@
                     },
                     {
                         "name": "page_size",
-                        "description": "Optional pagination: Size of pages to fetch (number of ratings per page)",
+                        "description": "Optional pagination: Size of pages to fetch (number of comments per page)",
                         "schema": {
                             "type": "integer"
                         },
@@ -446,7 +432,7 @@
                     },
                     {
                         "name": "page_offset",
-                        "description": "Optional pagination: Offset of page to fetch (default is 0, max is 100)",
+                        "description": "Optional pagination: Offset of page to fetch (default is 0)",
                         "schema": {
                             "type": "integer"
                         },

@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const cockDB = require("../cockDB");
 const nodeCrypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const keyLen = 64;
@@ -57,6 +58,26 @@ export function authenticateToken (req, res, next) {
         if (err) return res.sendStatus(403);
         req.email = email;
         next();
+    });
+}
+
+export function fetchUser (req, res, next) {
+    const email = req.email;
+    if (email == null) return res.sendStatus(403);
+
+    cockDB.User.sync({
+        force: false
+    }).then(function() {
+        return cockDB.User.findOne({
+            where: {
+                email: email
+            }
+        });
+    }).then(function(user) {
+        req.user = user;
+        next();
+    }).catch(function(error) {
+        res.status(404).json({ message: error });
     });
 }
 

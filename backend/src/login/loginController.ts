@@ -1,4 +1,4 @@
-import {generateAccessToken, hashPass, hashPassWithSalt} from "../helpers";
+import {generateAccessToken, hashPassWithSalt} from "../helpers";
 const cockDB = require("../cockDB");
 
 /*
