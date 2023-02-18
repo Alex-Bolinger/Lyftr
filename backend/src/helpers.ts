@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
-const cockDB = require("../cockDB");
+const roachDB = require("../roachDB");
 const nodeCrypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const keyLen = 64;
@@ -65,10 +65,10 @@ export function fetchUser (req, res, next) {
     const email = req.email;
     if (email == null) return res.sendStatus(403);
 
-    cockDB.User.sync({
+    roachDB.User.sync({
         force: false
     }).then(function() {
-        return cockDB.User.findOne({
+        return roachDB.User.findOne({
             where: {
                 email: email
             }

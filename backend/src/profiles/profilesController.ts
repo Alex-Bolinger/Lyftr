@@ -1,4 +1,4 @@
-const cockDB = require("../cockDB");
+const roachDB = require("../roachDB");
 import { validationResult } from "express-validator";
 
 /*
@@ -19,10 +19,10 @@ function getProfiles (req, res) {
     let profile_id = req.query.id;
     if (profile_id != null) {
         // Find and return this specific profile
-        cockDB.Profile.sync({
+        roachDB.Profile.sync({
             force: false
         }).then(function() {
-            return cockDB.Profile.findOne({
+            return roachDB.Profile.findOne({
                 where: {
                     id: profile_id
                 }
@@ -35,10 +35,10 @@ function getProfiles (req, res) {
     } else {
         // Find and return all profiles
         // TODO: add paging of results here
-        cockDB.Profile.sync({
+        roachDB.Profile.sync({
             force: false
         }).then(function() {
-            return cockDB.Profile.findAll();
+            return roachDB.Profile.findAll();
         }).then(function(profiles) {
             res.status(200).json(profiles);
         }).catch(function(error) {
@@ -78,7 +78,7 @@ function updateProfile (req, res) {
     // Update row with this ID
     let full_name = req.body.full_name;
     let picture_link = req.body.picture_link
-    cockDB.Profile.update({
+    roachDB.Profile.update({
         full_name: full_name,
         picture_link: picture_link
     }, {

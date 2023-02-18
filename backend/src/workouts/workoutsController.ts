@@ -6,7 +6,7 @@ import {
     unwrapJSONToArray,
     wrapArrayToJSON
 } from "../helpers";
-const cockDB = require("../cockDB");
+const roachDB = require("../roachDB");
 import { validationResult } from "express-validator";
 
 /*
@@ -32,10 +32,10 @@ function getWorkouts (req, res) {
 
     if (workout_id != null) {
         // Fetch this specific workout
-        cockDB.Workout.sync({
+        roachDB.Workout.sync({
             force: false
         }).then(function() {
-            return cockDB.Workout.findOne({
+            return roachDB.Workout.findOne({
                 where: {
                     id: workout_id
                 }
@@ -48,10 +48,10 @@ function getWorkouts (req, res) {
     } else {
         // Fetch all workouts
         // TODO add paging in future
-        cockDB.Workout.sync({
+        roachDB.Workout.sync({
             force: false
         }).then(function() {
-            return cockDB.Workout.findAll();
+            return roachDB.Workout.findAll();
         }).then(function(workouts) {
             // Unwrap activities
             for (let workout in workouts) {
@@ -93,7 +93,7 @@ function updateWorkout (req, res) {
     let name = req.body.name;
     let activities = wrapArrayToJSON(req.body.activities);
 
-    cockDB.Workout.update({
+    roachDB.Workout.update({
             id: workout_id,
             user_id: user_id,
             start_time: start_time,
@@ -136,10 +136,10 @@ function addWorkout (req, res) {
     const name = req.body.name;
     const activities = wrapArrayToJSON(req.body.activities);
 
-    cockDB.Workout.sync({
+    roachDB.Workout.sync({
         force: false
     }).then(function() {
-        return cockDB.Workout.create({
+        return roachDB.Workout.create({
             id: workoutID,
             user_id: user_id,
             start_time: start_time,

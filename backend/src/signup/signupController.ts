@@ -1,6 +1,6 @@
 import { hashPass, generateAccessToken, generateUserID, generateProfileID } from "../helpers";
 import { validationResult } from "express-validator";
-const cockDB = require("../cockDB");
+const roachDB = require("../roachDB");
 
 /*
     POST /signup
@@ -27,10 +27,10 @@ function signup (req, res) {
 
     // Check if account already exists
     const userEmail = req.body.user_credentials.email;
-    cockDB.User.sync({
+    roachDB.User.sync({
         force: false
     }).then(function() {
-        return cockDB.User.findOne({
+        return roachDB.User.findOne({
             where: {
                 email: userEmail
             }
@@ -44,10 +44,10 @@ function signup (req, res) {
         const profileID = generateProfileID();
         const userName = req.body.user_name;
         // Start with profile
-        cockDB.Profile.sync({
+        roachDB.Profile.sync({
             force: false
         }).then(function() {
-            return cockDB.Profile.create({
+            return roachDB.Profile.create({
                 id: profileID,
                 full_name: userName,
                 picture_link: ""
@@ -56,10 +56,10 @@ function signup (req, res) {
             // Profile created - now create user
             const userPassword = req.body.user_credentials.password;
             const userID = generateUserID();
-            cockDB.User.sync({
+            roachDB.User.sync({
                 force: false
             }).then(async function() {
-                return cockDB.User.create({
+                return roachDB.User.create({
                     id: userID,
                     email: userEmail,
                     user_name: userName,

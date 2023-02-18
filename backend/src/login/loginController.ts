@@ -1,5 +1,5 @@
 import {generateAccessToken, hashPassWithSalt} from "../helpers";
-const cockDB = require("../cockDB");
+const roachDB = require("../roachDB");
 
 /*
     POST /login
@@ -20,10 +20,10 @@ function login (req, res) {
     const passwordAttempt = req.body.password;
 
     // Find user account in database
-    cockDB.User.sync({
+    roachDB.User.sync({
         force: false
     }).then(function() {
-        return cockDB.User.findOne({
+        return roachDB.User.findOne({
             where: {
                 email: userEmail
             }
