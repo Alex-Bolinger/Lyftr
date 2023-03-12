@@ -19,12 +19,6 @@ const roachDB = require("../roachDB");
     }
  */
 function signup (req, res) {
-    // Check for input validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     // Check if account already exists
     const userEmail = req.body.user_credentials.email;
     roachDB.User.sync({

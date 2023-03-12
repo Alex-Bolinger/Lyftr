@@ -7,7 +7,6 @@ import {
     wrapArrayToJSON
 } from "../helpers";
 const roachDB = require("../roachDB");
-import { validationResult } from "express-validator";
 
 /*
     GET /workouts
@@ -28,7 +27,7 @@ import { validationResult } from "express-validator";
 
 function getWorkouts (req, res) {
     // Check for optional query parameter
-    let workout_id = req.query.id
+    let workout_id = req.query.id;
 
     if (workout_id != null) {
         // Fetch this specific workout
@@ -37,13 +36,14 @@ function getWorkouts (req, res) {
         }).then(function() {
             return roachDB.Workout.findOne({
                 where: {
-                    id: workout_id
+                    id: workout_id, // want the workout with this ID
+                    user_id: req.user.id // workout has to belong to this user
                 }
             });
         }).then(function(workout) {
             res.status(200).json(workout);
         }).catch(function(error) {
-            res.status(500).json({ message: error });
+            res.status(404).json({ message: error });
         })
     } else {
         // Fetch all workouts
@@ -51,7 +51,11 @@ function getWorkouts (req, res) {
         roachDB.Workout.sync({
             force: false
         }).then(function() {
-            return roachDB.Workout.findAll();
+            return roachDB.Workout.findAll({
+                where: {
+                    user_id: req.user.id // workouts have to belong to this user
+                }
+            });
         }).then(function(workouts) {
             // Unwrap activities
             for (let workout in workouts) {
@@ -75,34 +79,26 @@ function getWorkouts (req, res) {
     Response: 200 OK
  */
 function updateWorkout (req, res) {
-    // Check for input validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     let workout_id = req.query.id;
-    if (workout_id == null) {
-        res.status(400).json({ message: "Missing required param: workout_id" })
-    }
 
     // Update row with this ID
-    let user_id = req.body.user_id;
+    // let user_id = req.body.user_id; TODO remove this from the request in the api spec and frontend
     let start_time = req.body.start_time;
     let end_time = req.body.end_time;
     let name = req.body.name;
-    let activities = wrapArrayToJSON(req.body.activities);
+    let activities = wrapArrayToJSON(req.body.activities); // TODO validate activities
 
     roachDB.Workout.update({
             id: workout_id,
-            user_id: user_id,
+            user_id: req.user.id,
             start_time: start_time,
             end_time: end_time,
             name: name,
             activities: activities
         }, {
         where: {
-            id: workout_id
+            id: workout_id,
+            user_id: req.user.id // workout must be this user's own
         }
     }).then(function(updatedRows) {
         res.status(200).json();
@@ -120,17 +116,9 @@ function updateWorkout (req, res) {
     Response: 200 OK
  */
 function addWorkout (req, res) {
-    // Check for input validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     // Add workout to profile
-    // TODO make sure user is adding workout to their own profile
-    // TODO lots of other stuff
     let workoutID = generateWorkoutID();
-    const user_id = req.body.user_id;
+    // const user_id = req.body.user_id; TODO remove this from the request in the api spec and frontend
     const start_time = req.body.start_time;
     const end_time = req.body.end_time;
     const name = req.body.name;
@@ -141,7 +129,7 @@ function addWorkout (req, res) {
     }).then(function() {
         return roachDB.Workout.create({
             id: workoutID,
-            user_id: user_id,
+            user_id: req.user.id,
             start_time: start_time,
             end_time: end_time,
             name: name,

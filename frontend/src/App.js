@@ -9,6 +9,10 @@ import LogWorkout from './components/LogWorkout'
 import { Grid } from '@mui/material'
 
 // Auth state context
+// TODO refactor to use an enum for current page instead of multiple booleans
+// TODO example: page: "login" or page: "singup" instead of login: false, log: false etc.
+// TODO do this in a typescript way
+// TODO and clean up any other booleans you can in a similar fashion.  Global state and reducer needs a better structure
 const globalInitialState = {
   isAuthenticated: false,
   log: false,

@@ -1,14 +1,25 @@
 const { Sequelize } = require("sequelize-cockroachdb");
 
+// For cockroach DB
 // const sequelize = new Sequelize(process.env.CRDB_URL, {
 //     dialect: "postgres"
 // });
 
+// For local postgresql
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres'
 });
+
+// TODO: any way to create typescript types / models for these kings of things and integrate it with the database spec?
+// TODO: what about things like activities - how do we maintain and validate that "data type" consistently in the
+// TODO: API spec, backend, database, and frontend?
+
+// TODO: add github issue: optimize database calls?  with sequelize ORM, is there a way to avoid fetching one bit
+// TODO: of data, then using that to fetch another, then using that to fetch another?
+// TODO: is there a "transaction" sort of thing where you can send it all at once and skip repeat database / API queries?
+// TODO: that could really improve performance.
 
 // Tables
 const Profile = sequelize.define("profiles", {

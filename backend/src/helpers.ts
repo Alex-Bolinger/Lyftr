@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 const { v4: uuidv4 } = require("uuid");
 const roachDB = require("../roachDB");
 const nodeCrypto = require("crypto");
@@ -5,6 +6,16 @@ const jwt = require("jsonwebtoken");
 const keyLen = 64;
 const iterations = 100;
 const digest = "sha256";
+
+// Check for validation error and deny request if present
+export function checkValidation(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ validation_errors: errors.array() });
+    } else {
+        next();
+    }
+}
 
 // Takes data arranged in JSON object and unravels it into array
 export function unwrapJSONToArray(json) {
